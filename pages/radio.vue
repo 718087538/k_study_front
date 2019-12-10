@@ -15,7 +15,7 @@
     <br />
     <br />
     <button>查看答案</button>
-    <button>收藏</button>
+    <button @click="like">收藏</button>
     <button @click="pre">上一题</button>
     <button @click="next">下一题</button>
     <!-- <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination> -->
@@ -46,6 +46,10 @@ export default {
     };
   },
   methods: {
+    async like(){//收藏
+      let {data}= await axios.post('http://127.0.0.1:7001/api/client/like',{ userId:'5db7c8aa3db42c373cdb2974', categoryId:this.radio.category_id, chapterId:this.radio.chapter_id, questionId:this.radio._id});
+      console.log("like result",data);
+    },
     async next() {
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.category_id}&chapterId=${this.radio.chapter_id}&pre=1&_id=${this.radio._id}`
