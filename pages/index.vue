@@ -19,7 +19,7 @@ export default {
   name: "",
   data() {
     return {
-      cateList: [{}, {}, {}, {}, {}]
+      cateList: []
     };
   },
   async asyncData() {

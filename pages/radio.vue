@@ -1,11 +1,24 @@
 <template>
   <div>
-    <nuxt-link to="#" v-for="(item,index) in radioList " :key="index">
+    <!-- <nuxt-link to="#" v-for="(item,index) in radioList " :key="index">
       <div v-html="item.title"></div>
-    </nuxt-link>
-
-    <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination>
-
+    </nuxt-link>-->
+    <div v-html="radio.title"></div>
+    <li v-for="(item2,index) in radio.options " :key="index">{{item2.value}}</li>
+    <li>
+      <span>答案：</span>
+      {{radio.answer.key}}
+    </li>
+    <li>你的答案{{myKey}}</li>
+    <li>回答结果：{{result}}</li>
+    <li>收藏状态:{{likeState}}</li>
+    <br />
+    <br />
+    <button>查看答案</button>
+    <button>收藏</button>
+    <button>上一题</button>
+    <button @click="next">下一题</button>
+    <!-- <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination> -->
   </div>
 </template>
 
@@ -15,20 +28,35 @@ import axios from "axios";
 export default {
   data() {
     return {
-      radioList: "",
-      pageNum: ""
+      radio: "",
+      pageNum: "",
+      myKey: "A",
+      result: "错",
+      likeState: "否"
     };
   },
   async asyncData({ params, query }) {
-    console.log("打印出查询的", query);
+    //userId到时候要动态获取，vuex或者缓存或者其他方式登陆时存起来
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/searchquestion?categoryId=${query.cate}&chapterId=${query.chapter}`
+      `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}`
     );
-    console.log("sss", data.data);
+    console.log("sss", data.data[0]);
     return {
-      radioList: data.data.doc,
-      pageNum: data.data.count
+      radio: data.data[0]
     };
+  },
+  methods: {
+    async next() {
+      let { data } = await axios.get(
+        `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.category_id}&chapterId=${this.radio.chapter_id}&pre=1&_id=${this.radio._id}`
+      );
+      console.log("next question", data.code);
+      if (data.code === 205) {
+        alert("已经是最后一题");
+      } else {
+        this.radio = data.data[0];
+      }
+    }
   }
 };
 </script>
