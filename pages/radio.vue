@@ -16,7 +16,7 @@
     <br />
     <button>查看答案</button>
     <button>收藏</button>
-    <button>上一题</button>
+    <button @click="pre">上一题</button>
     <button @click="next">下一题</button>
     <!-- <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination> -->
   </div>
@@ -53,6 +53,17 @@ export default {
       console.log("next question", data.code);
       if (data.code === 205) {
         alert("已经是最后一题");
+      } else {
+        this.radio = data.data[0];
+      }
+    },
+    async pre() {
+      let { data } = await axios.get(
+        `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}`
+      );
+      console.log("next question", data.code);
+      if (data.code === 206) {
+        alert("已经第1题");
       } else {
         this.radio = data.data[0];
       }
