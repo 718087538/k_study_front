@@ -28,8 +28,8 @@
       <button @click="like">收藏</button>
       <button @click="pre">上一题</button>
       <button @click="next">下一题</button>
-      <!-- <button @click="answerErr">假设回答错误</button> -->
-      <!-- <button @click="deleteErr">删除错误记录</button> -->
+      <button @click="answerErr">假设回答错误</button>
+      <button @click="deleteErr">删除错误记录</button>
     </ul>
   </div>
 </template>
@@ -58,6 +58,33 @@ export default {
     };
   },
   methods: {
+    async deleteErr() {
+      let { data } = await axios.delete(
+        "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
+        {
+          data: {
+            userId: "5db7c8aa3db42c373cdb2974",
+            categoryId: this.simpleAnswer.categoryId,
+            chapterId: this.simpleAnswer.chapterId,
+            questionId: this.simpleAnswer._id
+          }
+        }
+      );
+      console.log("delete err", data);
+    },
+    async answerErr() {
+      let { data } = await axios.post(
+        "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
+        {
+          userId: "5db7c8aa3db42c373cdb2974",
+          categoryId: this.simpleAnswer.categoryId,
+          chapterId: this.simpleAnswer.chapterId,
+          questionId: this.simpleAnswer._id
+        }
+      );
+      console.log("answer result", data);
+    },
+
     async next() {
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/simpleAnswer?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
@@ -79,10 +106,19 @@ export default {
         this.simpleAnswer = data.data[0];
       }
     },
-     async like(){//收藏
-      let {data}= await axios.post('http://127.0.0.1:7001/api/client/simpleAnswerLike',{ userId:'5db7c8aa3db42c373cdb2974', categoryId:this.simpleAnswer.categoryId, chapterId:this.simpleAnswer.chapterId, questionId:this.simpleAnswer._id});
-      console.log("like result",data);
-    },
+    async like() {
+      //收藏
+      let { data } = await axios.post(
+        "http://127.0.0.1:7001/api/client/simpleAnswerLike",
+        {
+          userId: "5db7c8aa3db42c373cdb2974",
+          categoryId: this.simpleAnswer.categoryId,
+          chapterId: this.simpleAnswer.chapterId,
+          questionId: this.simpleAnswer._id
+        }
+      );
+      console.log("like result", data);
+    }
   }
 };
 </script>
