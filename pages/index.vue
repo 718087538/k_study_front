@@ -2,18 +2,23 @@
   <div class="box">
     <ul>
       <li v-for="(item,index) in cateList" :key="index">
-        <nuxt-link :to="{path:'chapter/',query: {cate: item._id }}">
-          {{item.name}}
-        </nuxt-link>
+        <nuxt-link :to="{path:'chapter/',query: {cate: item._id }}">{{item.name}}</nuxt-link>
       </li>
     </ul>
-    <nav class="bottomNav"></nav>
+    <nav class="bottomNav">
+      <button>登陆</button>
+      <button>注册</button>
+      <button>
+        <nuxt-link :to="{path:'like/'}">我的收藏</nuxt-link>
+      </button>
+      <button>修改资料</button>
+      <button>我的错题</button>
+    </nav>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
 
 export default {
   name: "",
@@ -26,8 +31,8 @@ export default {
     let { data } = await axios.get(`http://127.0.0.1:7001/api/category`);
     console.log(data.data);
     return {
-      cateList:data.data,
-    }
+      cateList: data.data
+    };
   },
   components: {}
 };
