@@ -79,22 +79,58 @@ export default {
       );
       console.log("answer result", data);
     },
-
+    sel(n) {
+      if (this.selOver) {
+        return false; //不能选多次
+      }
+      let myAnswer;
+      switch (n) {
+        case 0:
+          myAnswer = "A";
+          break;
+        case 1:
+          myAnswer = "B";
+          break;
+        case 2:
+          myAnswer = "C";
+          break;
+        case 3:
+          myAnswer = "D";
+          break;
+      }
+      if (myAnswer === this.radio.answer.key) {
+        this.result = "对";
+      } else {
+        this.result = "错";
+        this.answerErr();
+      }
+      this.selOver = true;
+      this.myAnswer = myAnswer;
+    },
     async like() {
       //收藏
       let { data } = await axios.post("http://127.0.0.1:7001/api/client/like", {
         userId: "5db7c8aa3db42c373cdb2974",
-        categoryId: this.radio.category_id,
-        chapterId: this.radio.chapter_id,
+        categoryId: this.radio.categoryId,
+        chapterId: this.radio.chapterId,
         questionId: this.radio._id
       });
       console.log("like result", data);
+      if (data.code === 200) {
+        alert("收藏成功！");
+      } else if (data.code === 201) {
+        alert("取消收藏成功");
+      }
     },
     async next() {
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&likeNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
+      this.selOver = false;
+      this.myAnswer = "*";
+      this.result = "*";
+      this.radio.answer.key = "*";
       if (data.code === 206) {
         alert("已经是最后一题");
       } else {
@@ -107,6 +143,10 @@ export default {
         `http://127.0.0.1:7001/api/client/radio?likeNext=0&userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&questionId=${this.radio._id}`
       );
       console.log("top question", data.code);
+      this.selOver = false;
+      this.myAnswer = "*";
+      this.result = "*";
+      this.radio.answer.key = "*";
       if (data.code === 206) {
         alert("已经第1题");
       } else {
