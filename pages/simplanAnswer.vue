@@ -54,7 +54,7 @@ export default {
     );
     console.log(data);
     return {
-      simpleAnswer: data.data[0]
+      simpleAnswer: data.data.res[0]
     };
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
       if (data.code === 205) {
         alert("已经是最后一题");
       } else {
-        this.simpleAnswer = data.data[0];
+        this.simpleAnswer = data.data.res[0];
       }
     },
     async pre() {
@@ -103,7 +103,7 @@ export default {
       if (data.code === 206) {
         alert("已经第1题");
       } else {
-        this.simpleAnswer = data.data[0];
+        this.simpleAnswer = data.data.res[0];
       }
     },
     async like() {

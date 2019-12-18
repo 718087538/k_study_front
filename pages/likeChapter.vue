@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(item,index) in chapterList " :key="index">
         章节名称：{{item.name}}
-        <nuxt-link :to="{path:'/errRadio',query: {categoryId: item.cid,chapterId:item._id,userId:'5db7c8aa3db42c373cdb2974'}}">单选</nuxt-link>
+        <nuxt-link :to="{path:'/likeRadio',query: {categoryId: item.cid,chapterId:item._id,userId:'5db7c8aa3db42c373cdb2974'}}">单选</nuxt-link>
         <nuxt-link :to="{path:'/simplanAnswer',query: {categoryId: cate,chapterId:item._id,userId:'5db7c8aa3db42c373cdb2974'}}">应用</nuxt-link>
       </li>
     </ul>

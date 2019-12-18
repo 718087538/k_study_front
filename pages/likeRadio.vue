@@ -35,34 +35,55 @@ export default {
     };
   },
   async asyncData({ params, query }) {
-
-      console.log(params,query);
-      //err=1;代表错题的请求方式
+    console.log(params, query);
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&err=1`
+      `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
     );
-    console.log("sss", data.data.res[0]);
+    console.log("收藏", data.data.res[0]);
     return {
       radio: data.data.res[0]
     };
   },
   methods: {
-    async answerErr(){
-      let {data}= await axios.post('http://127.0.0.1:7001/api/client/errorQuestion',{ userId:'5db7c8aa3db42c373cdb2974', categoryId:this.radio.category_id, chapterId:this.radio.chapter_id, questionId:this.radio._id});
-      console.log("answer result",data);
+    async answerErr() {
+      let { data } = await axios.post(
+        "http://127.0.0.1:7001/api/client/errorQuestion",
+        {
+          userId: "5db7c8aa3db42c373cdb2974",
+          categoryId: this.radio.category_id,
+          chapterId: this.radio.chapter_id,
+          questionId: this.radio._id
+        }
+      );
+      console.log("answer result", data);
     },
-    async deleteErr(){//删除打错的题目
-      let {data}= await axios.delete('http://127.0.0.1:7001/api/client/errorQuestion',{ data:{userId:'5db7c8aa3db42c373cdb2974',questionId:this.radio._id}});
-      console.log("answer result",data);
+    async deleteErr() {
+      //删除打错的题目
+      let { data } = await axios.delete(
+        "http://127.0.0.1:7001/api/client/errorQuestion",
+        {
+          data: {
+            userId: "5db7c8aa3db42c373cdb2974",
+            questionId: this.radio._id
+          }
+        }
+      );
+      console.log("answer result", data);
     },
 
-    async like(){//收藏
-      let {data}= await axios.post('http://127.0.0.1:7001/api/client/like',{ userId:'5db7c8aa3db42c373cdb2974', categoryId:this.radio.category_id, chapterId:this.radio.chapter_id, questionId:this.radio._id});
-      console.log("like result",data);
+    async like() {
+      //收藏
+      let { data } = await axios.post("http://127.0.0.1:7001/api/client/like", {
+        userId: "5db7c8aa3db42c373cdb2974",
+        categoryId: this.radio.category_id,
+        chapterId: this.radio.chapter_id,
+        questionId: this.radio._id
+      });
+      console.log("like result", data);
     },
     async next() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.category_id}&chapterId=${this.radio.chapter_id}&pre=1&_id=${this.radio._id}`
+        `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&likeNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       if (data.code === 205) {

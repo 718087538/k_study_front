@@ -5,12 +5,7 @@
             {{item.name}}
           </nuxt-link>
       </li>
-     <button>
-        单选收藏
-      </button>
-     <button>
-        <nuxt-link :to="{path:'like/',query: {userId: '34654354' }}">简单收藏</nuxt-link>
-      </button>
+    
   </div>
 </template>
 
