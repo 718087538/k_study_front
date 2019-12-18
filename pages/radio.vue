@@ -140,11 +140,12 @@ export default {
         alert("已经是最后一题");
       } else {
         this.radio = data.data.res[0];
+        this.likeState = data.data.liked;
       }
     },
     async pre() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}`
+        `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&userId=5db7c8aa3db42c373cdb2974`
       );
       console.log("next question", data.code);
       this.selOver = false;
@@ -155,6 +156,8 @@ export default {
         alert("已经第1题");
       } else {
         this.radio = data.data.res[0];
+        this.likeState = data.data.liked;
+
       }
     }
   }
