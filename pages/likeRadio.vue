@@ -95,7 +95,7 @@ export default {
         `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&likeNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
-      if (data.code === 201) {
+      if (data.code === 206) {
         alert("已经是最后一题");
       } else {
         this.radio = data.data.res[0];
@@ -104,13 +104,14 @@ export default {
     },
     async pre() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}`
+        `http://127.0.0.1:7001/api/client/radio?likeNext=0&userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&questionId=${this.radio._id}`
       );
-      console.log("next question", data.code);
+      console.log("top question", data.code);
       if (data.code === 206) {
         alert("已经第1题");
       } else {
         this.radio = data.data.res[0];
+        this.likeState = data.data.liked;
       }
     }
   }
