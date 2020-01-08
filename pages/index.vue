@@ -12,7 +12,11 @@
         <nuxt-link :to="{path:'like/'}">我的收藏</nuxt-link>
       </button>
       <button>修改资料</button>
-      <button>我的错题</button>
+      <button>
+        <nuxt-link :to="{path:'err/'}">
+        我的错题
+        </nuxt-link>
+        </button>
     </nav>
   </div>
 </template>
