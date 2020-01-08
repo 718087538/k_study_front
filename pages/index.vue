@@ -7,16 +7,17 @@
     </ul>
     <nav class="bottomNav">
       <button>登陆</button>
-      <button>注册</button>
+      <button>
+        <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
+      </button>
       <button>
         <nuxt-link :to="{path:'like/'}">我的收藏</nuxt-link>
       </button>
       <button>修改资料</button>
       <button>
-        <nuxt-link :to="{path:'err/'}">
-        我的错题
-        </nuxt-link>
-        </button>
+        <nuxt-link :to="{path:'err/'}">我的错题</nuxt-link>
+      </button>
+      <button>用户：{{userName}}</button>
     </nav>
   </div>
 </template>
@@ -28,7 +29,8 @@ export default {
   name: "",
   data() {
     return {
-      cateList: []
+      cateList: [],
+      userName: ""
     };
   },
   async asyncData() {
@@ -38,7 +40,12 @@ export default {
       cateList: data.data
     };
   },
-  components: {}
+
+  components: {},
+  async mounted() {
+
+    this.userName = localStorage.getItem("email");
+  }
 };
 </script>
 
