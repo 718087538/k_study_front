@@ -31,6 +31,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      uid: "",
       radio: "",
       pageNum: "",
       myAnswer: "",
@@ -57,7 +58,7 @@ export default {
     //   let { data } = await axios.post(
     //     "http://127.0.0.1:7001/api/client/errorQuestion",
     //     {
-    //       userId: "5db7c8aa3db42c373cdb2974",
+    //       userId: localStorage.getItem("uid");
     //       categoryId: this.radio.category_id,
     //       chapterId: this.radio.chapter_id,
     //       questionId: this.radio._id
@@ -71,7 +72,7 @@ export default {
         "http://127.0.0.1:7001/api/client/errorQuestion",
         {
           data: {
-            userId: "5db7c8aa3db42c373cdb2974",
+            userId: localStorage.getItem("uid"),
             questionId: this.radio._id
           }
         }
@@ -82,7 +83,7 @@ export default {
     async like() {
       //收藏
       let { data } = await axios.post("http://127.0.0.1:7001/api/client/like", {
-        userId: "5db7c8aa3db42c373cdb2974",
+        userId: localStorage.getItem("uid"),
         categoryId: this.radio.categoryId,
         chapterId: this.radio.chapterId,
         questionId: this.radio._id
@@ -96,7 +97,7 @@ export default {
     },
     async next() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=1&questionId=${this.radio._id}`
+        `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       if (data.code === 201) {
@@ -107,7 +108,7 @@ export default {
     },
     async pre() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=0&questionId=${this.radio._id}`
+        `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=0&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       if (data.code === 201) {
@@ -145,6 +146,9 @@ export default {
       this.selOver = true;
       this.myAnswer = myAnswer;
     }
+  },
+  async mounted() {
+    this.uid = localStorage.getItem("uid");
   }
 };
 </script>

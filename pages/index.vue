@@ -11,12 +11,13 @@
         <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
       </button>
       <button>
-        <nuxt-link :to="{path:'like/'}">我的收藏</nuxt-link>
+        <nuxt-link  :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
       </button>
       <button>修改资料</button>
       <button>
-        <nuxt-link :to="{path:'err/'}">我的错题</nuxt-link>
+        <nuxt-link :to="{path:'err/',query: {uid: uid }}">我的错题</nuxt-link>
       </button>
+      <button>退出登陆</button>
       <button>用户：{{userName}}</button>
     </nav>
   </div>
@@ -29,6 +30,7 @@ export default {
   name: "",
   data() {
     return {
+      uid:"",
       cateList: [],
       userName: ""
     };
@@ -43,8 +45,8 @@ export default {
 
   components: {},
   async mounted() {
-
     this.userName = localStorage.getItem("email");
+    this.uid = localStorage.getItem("uid");
   }
 };
 </script>

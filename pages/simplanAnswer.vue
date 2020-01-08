@@ -40,6 +40,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      uid: "",
       simpleAnswer: "",
       pageNum: "",
       myKey: "A",
@@ -63,7 +64,7 @@ export default {
         "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
         {
           data: {
-            userId: "5db7c8aa3db42c373cdb2974",
+            userId: localStorage.getItem("uid"),
             categoryId: this.simpleAnswer.categoryId,
             chapterId: this.simpleAnswer.chapterId,
             questionId: this.simpleAnswer._id
@@ -76,7 +77,7 @@ export default {
       let { data } = await axios.post(
         "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
         {
-          userId: "5db7c8aa3db42c373cdb2974",
+          userId: localStorage.getItem("uid"),
           categoryId: this.simpleAnswer.categoryId,
           chapterId: this.simpleAnswer.chapterId,
           questionId: this.simpleAnswer._id
@@ -87,7 +88,7 @@ export default {
 
     async next() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=5db7c8aa3db42c373cdb2974&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
+        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
       );
       console.log("next question", data);
       if (data.code === 205) {
@@ -111,7 +112,7 @@ export default {
       let { data } = await axios.post(
         "http://127.0.0.1:7001/api/client/simpleAnswerLike",
         {
-          userId: "5db7c8aa3db42c373cdb2974",
+          userId: localStorage.getItem("uid"),
           categoryId: this.simpleAnswer.categoryId,
           chapterId: this.simpleAnswer.chapterId,
           questionId: this.simpleAnswer._id
@@ -119,6 +120,9 @@ export default {
       );
       console.log("like result", data);
     }
+  },
+  async mounted() {
+    this.uid = localStorage.getItem("uid");
   }
 };
 </script>
