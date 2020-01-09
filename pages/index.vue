@@ -6,14 +6,18 @@
       </li>
     </ul>
     <nav class="bottomNav">
-      <button>登陆</button>
+      <button>
+        <nuxt-link :to="{path:'login/'}">登陆</nuxt-link>
+      </button>
       <button>
         <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
       </button>
       <button>
-        <nuxt-link  :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
+        <nuxt-link :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
       </button>
-      <button>修改资料</button>
+      <button>
+        <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
+      </button>
       <button>
         <nuxt-link :to="{path:'err/',query: {uid: uid }}">我的错题</nuxt-link>
       </button>
@@ -30,7 +34,7 @@ export default {
   name: "",
   data() {
     return {
-      uid:"",
+      uid: "",
       cateList: [],
       userName: ""
     };
