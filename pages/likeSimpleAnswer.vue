@@ -53,7 +53,7 @@ export default {
   async asyncData({ params, query }) {
     //userId到时候要动态获取，vuex或者缓存或者其他方式登陆时存起来
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}`
+      `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
     );
     console.log(data);
     if(data.data.length == 0){
@@ -61,9 +61,6 @@ export default {
         isEmpty:true
       }
     }
-    // if(dataLength == 0){
-    //  
-    // }
     return {
       simpleAnswer: data.data[0]
     };
@@ -113,7 +110,7 @@ export default {
 
     async next() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
+        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&likeNext=1&questionId=${this.simpleAnswer._id}`
       );
        this.showKey = false;
         this.myKey = " ";
@@ -126,7 +123,7 @@ export default {
     },
     async pre() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=0&_id=${this.simpleAnswer._id}`
+        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&likeNext=0&questionId=${this.simpleAnswer._id}`
       );
       this.showKey = false;
         this.myKey = " ";

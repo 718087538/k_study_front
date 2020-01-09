@@ -4,7 +4,7 @@
       <li v-for="(item,index) in chapterList " :key="index">
         章节名称：{{item.name}}
         <nuxt-link :to="{path:'/likeRadio',query: {categoryId: item.cid,chapterId:item._id,userId:uid}}">单选</nuxt-link>
-        <nuxt-link :to="{path:'/simplanAnswer',query: {categoryId: cate,chapterId:item._id,userId:uid}}">应用</nuxt-link>
+        <nuxt-link :to="{path:'/likeSimpleAnswer',query: {categoryId: item.cid,chapterId:item._id,userId:uid}}">应用</nuxt-link>
       </li>
     </ul>
     <!-- <el-pagination background layout="prev, pager, next" :total="10"></el-pagination> -->
