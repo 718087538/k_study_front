@@ -108,6 +108,8 @@ export default {
       console.log("answer result", data);
     },
 
+
+  // let test;
     async next() {
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&likeNext=1&questionId=${this.simpleAnswer._id}`
