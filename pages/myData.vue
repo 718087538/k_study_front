@@ -9,10 +9,10 @@
       </li>
       <li>
         <p>修改密码</p>
-        <input type="text" placeholder="原密码" />
-        <input type="text" placeholder="新密码" />
-        <input type="text" placeholder="重复密码" />
-        <button>确定</button>
+        <input type="text" placeholder="原密码"  v-model="oldPassword"/>
+        <input type="text" placeholder="新密码" v-model="newPassword"/>
+        <input type="text" placeholder="重复密码" v-model="reNewPassword" />
+        <button @click="changePass">确定</button>
       </li>
     </ul>
   </div>
@@ -24,14 +24,16 @@ import axios from "axios";
 export default {
   data(){
     return {
-      name:""
+      name:"",
+      oldPassword:"",
+      newPassword:"",
+      reNewPassword:"",
     }
   },
 
 
   methods:{
   async  changeData(){
-    console.log(localStorage.getItem('uid'),this.name);
         let { data } = await axios.post(
         "http://127.0.0.1:7001/api/client/changeData",
         {
@@ -39,7 +41,45 @@ export default {
           name: this.name,
         }
       );
-      console.log(data);
+      if(data.code === 200){
+        alert("修改成功");
+      }
+    },
+  async  changePass(){
+    if(this.oldPassword == ""){
+      alert("请输入原密码");
+      return false;
+    }
+    if(this.newPassword == ""){
+      alert("请输入新密码");
+      return false;
+
+    }
+    if(this.reNewPassword == ""){
+      alert("请再次输入新密码");
+      return false;
+
+    }
+    if(this.newPassword != this.reNewPassword){
+      alert("两次新密码不一致！");
+      return false;
+
+    }
+        let { data } = await axios.post(
+        "http://127.0.0.1:7001/api/client/changePassword",
+        {
+          uid: localStorage.getItem("uid"),
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword,
+          reNewPassword: this.reNewPassword,
+        }
+      );
+      console.log("改密返回状态",data);
+      if(data.code === 200){
+        alert("修改成功");
+      }else{
+        alert("原密码错误");
+      }
     }
   }
 };
