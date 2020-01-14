@@ -3,6 +3,8 @@
     <!-- <nuxt-link to="#" v-for="(item,index) in radioList " :key="index">
       <div v-html="item.title"></div>
     </nuxt-link>-->
+    <h2 v-if="isEmpty">内容为空</h2>
+    <section v-if="!isEmpty">
     <div v-html="radio.title"></div>
     <li v-for="(item2,index) in radio.options " :key="index" @click="sel(index)">{{item2.value}}</li>
 
@@ -24,9 +26,7 @@
     <button @click="like">收藏</button>
     <button @click="pre">上一题</button>
     <button @click="next">下一题</button>
-    <!-- <button @click="answerErr">假设回答错误</button>
-    <button @click="deleteErr">删除错误记录</button>-->
-    <!-- <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination> -->
+    </section>
   </div>
 </template>
 
@@ -36,14 +36,15 @@ import axios from "axios";
 export default {
   data() {
     return {
-      uid:"",
+      uid: "",
       answerResult: false,
       radio: "",
       pageNum: "",
       myAnswer: "*",
       result: "*",
       likeState: "*",
-      selOver: false //是否选择过
+      selOver: false, //是否选择过
+      isEmpty:false,
     };
   },
   async asyncData({ params, query }) {
@@ -52,9 +53,14 @@ export default {
       `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}`
     );
     console.log("11111111111111", data.data);
+    if (data.data.res.length == 0) {
+      return {
+        isEmpty: true
+      };
+    }
     return {
       radio: data.data.res[0],
-      likeState:data.data.liked,
+      likeState: data.data.liked
     };
   },
   methods: {
@@ -158,11 +164,10 @@ export default {
       } else {
         this.radio = data.data.res[0];
         this.likeState = data.data.liked;
-
       }
     }
   },
-    async mounted() {
+  async mounted() {
     this.uid = localStorage.getItem("uid");
   }
 };

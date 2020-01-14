@@ -1,29 +1,29 @@
 <template>
   <div>
-    <div v-html="radio.title"></div>
-    <li v-for="(item2,index) in radio.options " :key="index" @click="sel(index)">{{item2.value}}</li>
+    <h1 v-if="isEmpty">本章单选收藏为空</h1>
+    <section v-if="!isEmpty">
+      <div v-html="radio.title"></div>
+      <li v-for="(item2,index) in radio.options " :key="index" @click="sel(index)">{{item2.value}}</li>
 
-    <br />
-    <br />
-    <li>收藏状态: {{likeState}}</li>
-    <div class="answer">
-      <!-- v-show="answerResult" -->
-      <li>
-        <span>答案：</span>
-        {{radio.answer.key}}
-      </li>
-      <li>你的答案：{{myAnswer}}</li>
-      <li>回答结果：{{result}}</li>
-    </div>
-    <br />
-    <br />
-    <button>查看答案</button>
-    <button @click="like">收藏</button>
-    <button @click="pre">上一题</button>
-    <button @click="next">下一题</button>
-    <!-- <button @click="answerErr">假设回答错误</button>
-    <button @click="deleteErr">删除错误记录</button>-->
-    <!-- <el-pagination background layout="prev, pager, next" :total="pageNum"></el-pagination> -->
+      <br />
+      <br />
+      <li>收藏状态: {{likeState}}</li>
+      <div class="answer">
+        <!-- v-show="answerResult" -->
+        <li>
+          <span>答案：</span>
+          {{radio.answer.key}}
+        </li>
+        <li>你的答案：{{myAnswer}}</li>
+        <li>回答结果：{{result}}</li>
+      </div>
+      <br />
+      <br />
+      <button>查看答案</button>
+      <button @click="like">收藏</button>
+      <button @click="pre">上一题</button>
+      <button @click="next">下一题</button>
+    </section>
   </div>
 </template>
 
@@ -40,7 +40,8 @@ export default {
       myAnswer: "*",
       result: "*",
       likeState: "*",
-      selOver: false //是否选择过
+      selOver: false, //是否选择过
+      isEmpty: false
     };
   },
   async asyncData({ params, query }) {
@@ -48,7 +49,12 @@ export default {
     let { data } = await axios.get(
       `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
     );
-    console.log("收藏", data.data.res[0]);
+    console.log("收藏", data.data.res);
+    if (data.data.res.length == 0) {
+      return {
+        isEmpty: true
+      };
+    }
     return {
       radio: data.data.res[0],
       likeState: data.data.liked

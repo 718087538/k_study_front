@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1 v-if="isEmpty">简答题为空</h1>
+    <h1 v-if="isEmpty">本章节下简答错题为空</h1>
     <div v-html="simpleAnswer.title"></div>
     <ul v-if="!isEmpty">
       <li  @click="sel(0)">A:{{simpleAnswer.options[0].value}}</li>

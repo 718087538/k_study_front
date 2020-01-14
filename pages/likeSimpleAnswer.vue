@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1 v-if="isEmpty">简答题为空</h1>
+    <h1 v-if="isEmpty">本章简答收藏为空</h1>
     <div v-html="simpleAnswer.title"></div>
     <ul v-if="!isEmpty">
       <li  @click="sel(0)">A:{{simpleAnswer.options[0].value}}</li>
@@ -55,7 +55,7 @@ export default {
     let { data } = await axios.get(
       `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
     );
-    console.log(data);
+    console.log("抽藏的简答！",data);
     if(data.data.length == 0){
        return {
         isEmpty:true
