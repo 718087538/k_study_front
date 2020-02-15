@@ -3,35 +3,87 @@
     <section class="header">
       <div class="content">
         <div class="left">欢迎来开***</div>
-        <div class="right">
+        <div class="right"  v-if="!isLogin">
           <nuxt-link :to="{path:'login/'}">登陆</nuxt-link>
           <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
+        </div>
+        <div class="right" v-if="isLogin">
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              用户：{{userName}}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
+              </el-dropdown-item>
+              <el-dropdown-item>退出登陆</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
     </section>
     <section class="navBox">
       <nav>
         <a href="javascript:void(0)" class="sel">首页</a>
+        <nuxt-link :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
+        <nuxt-link :to="{path:'err/',query: {uid: uid }}">错题本</nuxt-link>
       </nav>
     </section>
-    <ul>
-      <li v-for="(item,index) in cateList" :key="index">
-        <nuxt-link :to="{path:'chapter/',query: {cate: item._id }}">{{item.name}}</nuxt-link>
-      </li>
-    </ul>
-    <nav class="bottomNav">
-      <button>
-        <nuxt-link :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
-      </button>
-      <button>
-        <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
-      </button>
-      <button>
-        <nuxt-link :to="{path:'err/',query: {uid: uid }}">我的错题</nuxt-link>
-      </button>
-      <button>退出登陆</button>
-      <button>用户：{{userName}}</button>
-    </nav>
+    <section class="subject">
+      <div class="left">
+        <div class="selfEdu">
+          <h1>
+            <p class="title">学历教育</p>
+            <div class="stand"></div>
+          </h1>
+          <ul>
+            <li>
+              <nuxt-link
+                v-for="(item,index) in cateList"
+                :key="index"
+                :to="{path:'chapter/',query: {cate: item._id }}"
+              >{{item.name}}</nuxt-link>
+            </li>
+          </ul>
+        </div>
+        <div class="selfEdu">
+          <h1>
+            <p class="title">外语类</p>
+            <div class="stand"></div>
+          </h1>
+          <ul>
+            <li>
+              <nuxt-link
+                v-for="(item,index) in cateList"
+                :key="index"
+                :to="{path:'chapter/',query: {cate: item._id }}"
+              >{{item.name}}</nuxt-link>
+            </li>
+          </ul>
+        </div>
+        <div class="selfEdu">
+          <h1>
+            <p class="title">计算机类</p>
+            <div class="stand"></div>
+          </h1>
+          <ul>
+            <li>
+              <nuxt-link
+                v-for="(item,index) in cateList"
+                :key="index"
+                :to="{path:'chapter/',query: {cate: item._id }}"
+              >{{item.name}}</nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="right">
+        <div class="imgBox">
+          <img src="@/static/indexImg/n1.png" alt="">
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -43,6 +95,7 @@ export default {
   data() {
     return {
       uid: "",
+      isLogin:false,//是否登陆的状态
       cateList: [],
       userName: ""
     };
@@ -66,6 +119,8 @@ export default {
 <style lang="scss" scoped>
 $pageWidth: 1000px;
 $setCenter: 0 auto;
+$hoverColor: red;
+
 .header {
   background: rgba(202, 199, 202, 0.533);
   height: 30px;
@@ -89,7 +144,7 @@ $setCenter: 0 auto;
   background: rgb(15, 157, 88);
   height: 40px;
   margin: {
-    top:30px;
+    top: 30px;
   }
   nav {
     width: $pageWidth;
@@ -100,51 +155,90 @@ $setCenter: 0 auto;
       display: inline-block;
       width: 100px;
       text-align: center;
-
       text-decoration: none;
+      &:hover {
+        background: rgb(255, 114, 0);
+      }
     }
     .sel {
       background: rgb(255, 114, 0);
+      margin: 0;
+      border: 0;
     }
   }
 }
-.bottomNav {
-  width: 100%;
-  height: 50px;
-  position: fixed;
-  bottom: 0;
-  z-index: 10;
-  background: rgba($color: #000000, $alpha: 0.8);
-}
-.box {
-  width: 100%;
-  height: 100vh;
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    li {
-      margin: 10px;
-      list-style: none;
-      width: 140px;
-      height: 140px;
-      border-radius: 10px;
-      font-size: 40px;
-      text-align: center;
-      line-height: 140px;
-      a {
-        color: #fff;
+.subject {
+  width: $pageWidth;
+  margin: $setCenter;
+  padding-top: 20px;
+
+  display: flex;
+  .left {
+    width: 720px;
+    .selfEdu {
+      margin-top: 20px;
+      &:nth-child(1){
+        margin-top: 0;
       }
-      &:nth-child(n + 1) {
-        background: #000;
+      h1 {
+        border-top: 1px solid rgb(15, 157, 88);
+        background: #f1f1f1;
+        height: 40px;
+        display: flex;
+        .title {
+          background: rgb(15, 157, 88);
+          width: 160px;
+          text-align: center;
+          height: 40px;
+          color: #fff;
+          margin: 0;
+        }
+        .stand {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(
+            135deg,
+            rgb(15, 157, 88),
+            rgb(15, 157, 88) 28px,
+            #f1f1f1,
+            #f1f1f1 20px
+          );
+        }
       }
-      &:nth-child(n + 2) {
-        background: rgb(187, 68, 68);
+      ul {
+        // display: flex;
+        // flex-wrap: wrap;
+        border: 1px solid rgb(223, 220, 220);
+        padding: 0 10px;
+        li {
+          margin: 10px;
+          list-style: none;
+          font-size: 20px;
+          border-top: 1px solid rgb(223, 220, 220);
+          padding: 10px 0px;
+          a {
+            color: #333;
+            text-decoration: none;
+            padding: 0 6px;
+            &:hover {
+              color: $hoverColor;
+            }
+          }
+        }
       }
-      &:nth-child(n + 3) {
-        background: rgb(47, 175, 54);
-      }
-      &:nth-child(n + 4) {
-        background: rgb(160, 47, 175);
+    }
+  }
+  .right {
+    background: #000;
+    width: 260px;
+    height: 20px;
+    margin-left: 20px;
+    .imgBox{
+      img{
+        width: 100%;
+        height: 140px;
+        border-radius: 4px;
       }
     }
   }
