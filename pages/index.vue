@@ -3,7 +3,7 @@
     <section class="header">
       <div class="content">
         <div class="left">欢迎来开***</div>
-        <div class="right"  v-if="!isLogin">
+        <div class="right" v-if="!isLogin">
           <nuxt-link :to="{path:'login/'}">登陆</nuxt-link>
           <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
         </div>
@@ -17,7 +17,10 @@
               <el-dropdown-item>
                 <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
               </el-dropdown-item>
-              <el-dropdown-item>退出登陆</el-dropdown-item>
+              <el-dropdown-item >
+                
+                <div @click="signOut">退出登陆</div>
+                </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -80,7 +83,7 @@
       </div>
       <div class="right">
         <div class="imgBox">
-          <img src="@/static/indexImg/n1.png" alt="">
+          <img src="@/static/indexImg/n1.png" alt />
         </div>
       </div>
     </section>
@@ -95,7 +98,7 @@ export default {
   data() {
     return {
       uid: "",
-      isLogin:false,//是否登陆的状态
+      isLogin: false, //是否登陆的状态
       cateList: [],
       userName: ""
     };
@@ -109,7 +112,23 @@ export default {
   },
 
   components: {},
-  async mounted() {
+  methods: {
+    signOut() {
+      alert("");
+      localStorage.setItem("isLogin", false); //记录状态为登陆。
+    }
+  },
+  mounted() {
+    let tmp = Boolean(localStorage.getItem("isLogin"));//得到的tmp是string类型的值
+    console.log("tmp值",tmp);
+    if(tmp=="true" || tmp){
+      console.log("进入了true");
+      this.isLogin = true;
+    }else{
+      console.log("进入了false");
+      this.isLogin = false;
+    }
+    console.log(this.isLogin);
     this.userName = localStorage.getItem("email");
     this.uid = localStorage.getItem("uid");
   }
@@ -177,7 +196,7 @@ $hoverColor: red;
     width: 720px;
     .selfEdu {
       margin-top: 20px;
-      &:nth-child(1){
+      &:nth-child(1) {
         margin-top: 0;
       }
       h1 {
@@ -234,8 +253,8 @@ $hoverColor: red;
     width: 260px;
     height: 20px;
     margin-left: 20px;
-    .imgBox{
-      img{
+    .imgBox {
+      img {
         width: 100%;
         height: 140px;
         border-radius: 4px;
