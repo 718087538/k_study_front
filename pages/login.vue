@@ -116,7 +116,7 @@ export default {
         localStorage.setItem("token", data.data.token);
         localStorage.setItem("email", data.data.email);
         localStorage.setItem("uid", data.data.uid);
-        localStorage.setItem("isLogin",true);//记录状态为登陆。
+        localStorage.setItem("isLogin",'true');//记录状态为登陆。
         // console.log(localStorage.getItem("userName"), "存起来的用户名");
         this.$message({
           message: "恭喜您，登录成功",

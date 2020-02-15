@@ -17,10 +17,9 @@
               <el-dropdown-item>
                 <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
               </el-dropdown-item>
-              <el-dropdown-item >
-                
+              <el-dropdown-item>
                 <div @click="signOut">退出登陆</div>
-                </el-dropdown-item>
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -114,17 +113,20 @@ export default {
   components: {},
   methods: {
     signOut() {
-      alert("");
-      localStorage.setItem("isLogin", false); //记录状态为登陆。
+      localStorage.setItem("isLogin", 'false'); //记录状态为登陆。
+      localStorage.removeItem("token");
+      localStorage.removeItem("uid");
+      localStorage.removeItem("email");
     }
   },
+ 
   mounted() {
-    let tmp = Boolean(localStorage.getItem("isLogin"));//得到的tmp是string类型的值
-    console.log("tmp值",tmp);
-    if(tmp=="true" || tmp){
-      console.log("进入了true");
+       let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
+    console.log("tmp值", tmp);
+    if (tmp == "true") {
+      console.log("进入了string的true");
       this.isLogin = true;
-    }else{
+    } else {
       console.log("进入了false");
       this.isLogin = false;
     }
