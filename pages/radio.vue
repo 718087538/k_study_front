@@ -11,8 +11,7 @@
     <br />
     <br />
     <li>收藏状态: {{likeState}}</li>
-    <div class="answer">
-      <!-- v-show="answerResult" -->
+    <div class="answer" v-show="answerResult">
       <li>
         <span>答案：</span>
         {{radio.answer.key}}
@@ -91,6 +90,7 @@ export default {
       }
       this.selOver = true;
       this.myAnswer = myAnswer;
+      this.answerResult = true;
     },
     //回答错误题目时，记录错题
     async answerErr() {
@@ -135,6 +135,8 @@ export default {
       }
     },
     async next() {
+      this.answerResult = false;
+
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&pre=1&_id=${this.radio._id}`
       );
@@ -151,6 +153,8 @@ export default {
       }
     },
     async pre() {
+      this.answerResult = false;
+
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&userId=${this.uid}`
       );

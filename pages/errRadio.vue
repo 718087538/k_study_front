@@ -7,13 +7,14 @@
 
       <br />
       <br />
-
-      <li>
-        <span>答案：</span>
-        {{radio.answer.key}}
-      </li>
-      <li>你的答案{{myAnswer}}</li>
-      <li>回答结果：{{result}}</li>
+      <div v-show="selOver">
+        <li>
+          <span>答案：</span>
+          {{radio.answer.key}}
+        </li>
+        <li>你的答案{{myAnswer}}</li>
+        <li>回答结果：{{result}}</li>
+      </div>
       <li>收藏状态:{{likeState}}</li>
       <br />
       <br />
@@ -102,6 +103,7 @@ export default {
       }
     },
     async next() {
+      this.selOver = false;
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=1&questionId=${this.radio._id}`
       );
@@ -113,6 +115,8 @@ export default {
       }
     },
     async pre() {
+      this.selOver = false;
+
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=0&questionId=${this.radio._id}`
       );
