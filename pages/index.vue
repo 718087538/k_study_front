@@ -56,11 +56,7 @@
           </h1>
           <ul>
             <li>
-              <nuxt-link
-                v-for="(item,index) in cateList"
-                :key="index"
-                :to="{path:'chapter/',query: {cate: item._id }}"
-              >{{item.name}}</nuxt-link>
+              <a href="JavaScript:void(0)">敬请期待</a>
             </li>
           </ul>
         </div>
@@ -71,11 +67,7 @@
           </h1>
           <ul>
             <li>
-              <nuxt-link
-                v-for="(item,index) in cateList"
-                :key="index"
-                :to="{path:'chapter/',query: {cate: item._id }}"
-              >{{item.name}}</nuxt-link>
+              <a href="JavaScript:void(0)">敬请期待</a>
             </li>
           </ul>
         </div>
@@ -113,15 +105,15 @@ export default {
   components: {},
   methods: {
     signOut() {
-      localStorage.setItem("isLogin", 'false'); //记录状态为登陆。
+      localStorage.setItem("isLogin", "false"); //记录状态为登陆。
       localStorage.removeItem("token");
       localStorage.removeItem("uid");
       localStorage.removeItem("email");
     }
   },
- 
+
   mounted() {
-       let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
+    let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
     console.log("tmp值", tmp);
     if (tmp == "true") {
       console.log("进入了string的true");
