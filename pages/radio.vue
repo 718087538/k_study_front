@@ -5,37 +5,43 @@
     </nuxt-link>-->
     <h2 v-if="isEmpty">内容为空</h2>
     <section class="content" v-if="!isEmpty">
-      <div v-html="radio.title"></div>
-      <li
-      class="options"
-        :class="{selItem:index===selnum}"
-        v-for="(item2,index) in radio.options"
-        :key="index"
-        @click="sel(index)"
-      >{{item2.value}}</li>
-      <br />
-      <br />
-      <div class="answer" v-show="answerResult">
-        <li>
-          <span>答案：</span>
-          {{radio.answer.key}}
-        </li> 
-        <li>你的回答：{{myAnswer}}</li> 
-        <li>回答结果：{{result}}</li>
-        <li>收藏状态: {{likeState}}</li>
+      <div class="left">
+        <div v-html="radio.title"></div>
+        <li
+          class="options"
+          :class="{selItem:index===selnum,selHover:!selOver}"
+          v-for="(item2,index) in radio.options"
+          :key="index"
+          @click="sel(index)"
+        >{{item2.value}}</li>
+        <br />
+        <br />
+        <div class="answer" v-show="answerResult">
+          <li>
+            <span>答案：</span>
+            {{radio.answer.key}}
+          </li>
+          <li>你的回答：{{myAnswer}}</li>
+          <li>回答结果：{{result}}</li>
+          <li>收藏状态: {{likeState}}</li>
+        </div>
+        <br />
+        <br />
+        <el-button type="info">查看答案</el-button>
+        <el-button @click="like" type="warning" icon="el-icon-star-off" circle></el-button>
+        <el-button @click="pre" type="primary" plain>上一题</el-button>
+        <el-button @click="next" type="primary" plain>下一题</el-button>
       </div>
-      <br />
-      <br />
-      <el-button type="info">查看答案</el-button>
-      <el-button @click="like" type="warning" icon="el-icon-star-off" circle></el-button>
-      <el-button @click="pre" type="primary" plain>上一题</el-button>
-      <el-button @click="next" type="primary" plain>下一题</el-button>
+      <div class="right">
+        <ImgAd />
+      </div>
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ImgAd from "~/components/imgAd.vue";
 
 export default {
   data() {
@@ -51,6 +57,9 @@ export default {
       isEmpty: false,
       selnum: -1
     };
+  },
+  components: {
+    ImgAd
   },
   async asyncData({ params, query }) {
     //userId到时候要动态获取，vuex或者缓存或者其他方式登陆时存起来
@@ -77,15 +86,19 @@ export default {
       switch (n) {
         case 0:
           myAnswer = "A";
+          this.selnum = 0;
           break;
         case 1:
           myAnswer = "B";
+          this.selnum = 1;
           break;
         case 2:
           myAnswer = "C";
+          this.selnum = 2;
           break;
         case 3:
           myAnswer = "D";
+          this.selnum = 3;
           break;
       }
       if (myAnswer === this.radio.answer.key) {
@@ -189,17 +202,30 @@ $setCenter: 0 auto;
 $hoverColor: red;
 
 .content {
-  width: 1200px;
+  width: $pageWidth;
   margin: $setCenter;
   margin-top: 30px;
-  .options{
+  display: flex;
+  .left {
+    flex: 1;
+  }
+  .options {
     list-style: none;
     margin: 6px 0;
     cursor: pointer;
+    width: 70%;
+    padding: 8px 0;
+  }
+  .selHover {
+    &:hover {
+      background: rgb(85, 140, 223);
+      color: #fff;
+    }
   }
 
   .selItem {
-    color: rgb(20, 95, 207);
+    background: rgb(85, 140, 223);
+    color: #fff;
   }
   .answer {
     display: flex;
