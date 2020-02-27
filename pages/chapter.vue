@@ -2,12 +2,13 @@
   <div class="container">
     <section class="head">
       <h2>科目列表</h2>
+      <div>vuex的值为{{todos}}</div>
     </section>
     <section class="chapterList">
       <h2 v-if="isEmpty">内容为空</h2>
       <ul v-if="!isEmpty">
         <li v-for="(item,index) in chapterList " :key="index">
-          <p> {{item.name}}</p>
+          <p>{{item.name}}</p>
           <nuxt-link :to="{path:'/radio',query: {categoryId: cate,chapterId:item._id,userId:uid}}">
             <el-button>单项选择</el-button>
           </nuxt-link>
@@ -25,7 +26,7 @@
 
 <script>
 import axios from "axios";
-
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -51,6 +52,12 @@ export default {
       cate: query.cate
     };
   },
+  methods: {},
+
+  computed: {
+     todos () { return this.$store.state.todos.list }
+  },
+
   async mounted() {
     this.uid = localStorage.getItem("uid");
   }
@@ -62,13 +69,13 @@ $pageWidth: 1000px;
 $setCenter: 0 auto;
 $hoverColor: red;
 
-.head{
+.head {
   text-align: center;
   color: #333;
   margin: {
-    top:60px;
+    top: 60px;
     bottom: 20px;
-    }
+  }
 }
 .chapterList {
   width: 1000px;
@@ -80,7 +87,7 @@ $hoverColor: red;
       height: 100px;
       display: flex;
       align-items: center;
-      p{
+      p {
         flex: 1;
         color: #333;
       }

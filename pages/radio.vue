@@ -4,27 +4,32 @@
       <div v-html="item.title"></div>
     </nuxt-link>-->
     <h2 v-if="isEmpty">内容为空</h2>
-    <section v-if="!isEmpty">
-    <div v-html="radio.title"></div>
-    <li v-for="(item2,index) in radio.options " :key="index" @click="sel(index)">{{item2.value}}</li>
-
-    <br />
-    <br />
-    <li>收藏状态: {{likeState}}</li>
-    <div class="answer" v-show="answerResult">
-      <li>
-        <span>答案：</span>
-        {{radio.answer.key}}
-      </li>
-      <li>你的答案：{{myAnswer}}</li>
-      <li>回答结果：{{result}}</li>
-    </div>
-    <br />
-    <br />
-    <button>查看答案</button>
-    <button @click="like">收藏</button>
-    <button @click="pre">上一题</button>
-    <button @click="next">下一题</button>
+    <section class="content" v-if="!isEmpty">
+      <div v-html="radio.title"></div>
+      <li
+      class="options"
+        :class="{selItem:index===selnum}"
+        v-for="(item2,index) in radio.options"
+        :key="index"
+        @click="sel(index)"
+      >{{item2.value}}</li>
+      <br />
+      <br />
+      <div class="answer" v-show="answerResult">
+        <li>
+          <span>答案：</span>
+          {{radio.answer.key}}
+        </li> 
+        <li>你的回答：{{myAnswer}}</li> 
+        <li>回答结果：{{result}}</li>
+        <li>收藏状态: {{likeState}}</li>
+      </div>
+      <br />
+      <br />
+      <el-button type="info">查看答案</el-button>
+      <el-button @click="like" type="warning" icon="el-icon-star-off" circle></el-button>
+      <el-button @click="pre" type="primary" plain>上一题</el-button>
+      <el-button @click="next" type="primary" plain>下一题</el-button>
     </section>
   </div>
 </template>
@@ -43,7 +48,8 @@ export default {
       result: "*",
       likeState: "*",
       selOver: false, //是否选择过
-      isEmpty:false,
+      isEmpty: false,
+      selnum: -1
     };
   },
   async asyncData({ params, query }) {
@@ -177,5 +183,30 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+$pageWidth: 1000px;
+$setCenter: 0 auto;
+$hoverColor: red;
+
+.content {
+  width: 1200px;
+  margin: $setCenter;
+  margin-top: 30px;
+  .options{
+    list-style: none;
+    margin: 6px 0;
+    cursor: pointer;
+  }
+
+  .selItem {
+    color: rgb(20, 95, 207);
+  }
+  .answer {
+    display: flex;
+    li {
+      margin-right: 24px;
+      list-style: none;
+    }
+  }
+}
 </style>
