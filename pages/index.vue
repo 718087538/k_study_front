@@ -42,7 +42,7 @@
           <ul>
             <li>
               <nuxt-link
-                v-for="(item,index) in cateList"
+                v-for="(item,index) in selfExam"
                 :key="index"
                 :to="{path:'chapter/',query: {cate: item._id }}"
               >{{item.name}}</nuxt-link>
@@ -67,7 +67,11 @@
           </h1>
           <ul>
             <li>
-              <a href="JavaScript:void(0)">敬请期待</a>
+              <nuxt-link
+                v-for="(item,index) in comPuterList"
+                :key="index"
+                :to="{path:'chapter/',query: {cate: item._id }}"
+              >{{item.name}}</nuxt-link>
             </li>
           </ul>
         </div>
@@ -91,14 +95,38 @@ export default {
       uid: "",
       isLogin: false, //是否登陆的状态
       cateList: [],
+      selfExam:[],//自学考试类
+      comPuterList: [],
       userName: ""
     };
   },
   async asyncData() {
     let { data } = await axios.get(`http://127.0.0.1:7001/api/category`);
     console.log(data.data);
+    let comPuterList = [];
+    let selfExam = [];//自学考试临时变量
+    let tmpName = "";
+    for (let i of data.data) {
+      tmpName = i.name;
+      if (
+        tmpName === "MySQL" ||
+        tmpName === "Node.js" ||
+        tmpName === "算法" ||
+        tmpName === "数据结构" ||
+        tmpName === "MongoDB" ||
+        tmpName === "计算机网络" ||
+        tmpName === "操作系统"
+      ) {
+        comPuterList.push(i);
+      } else if (
+        tmpName === "自学考试" 
+      ) {
+        selfExam.push(i);
+      }
+    }
     return {
-      cateList: data.data
+      selfExam: selfExam,
+      comPuterList: comPuterList
     };
   },
 

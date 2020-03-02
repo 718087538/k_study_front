@@ -27,8 +27,9 @@
         </div>
         <br />
         <br />
-        <el-button type="info">查看答案</el-button>
-        <el-button @click="like" type="warning" icon="el-icon-star-off" circle></el-button>
+        <el-button @click="showKey" class="info" >查看答案</el-button>
+        <el-button @click="like" v-if="likeState == 'like'" type="warning" icon="el-icon-success" circle></el-button>
+        <el-button @click="like" v-if="likeState == 'noLike'" type="warning" icon="el-icon-star-off" circle></el-button>
         <el-button @click="pre" type="primary" plain>上一题</el-button>
         <el-button @click="next" type="primary" plain>下一题</el-button>
       </div>
@@ -111,6 +112,9 @@ export default {
       this.myAnswer = myAnswer;
       this.answerResult = true;
     },
+    showKey(){
+      this.answerResult = true;
+    },
     //回答错误题目时，记录错题
     async answerErr() {
       let { data } = await axios.post(
@@ -155,7 +159,7 @@ export default {
     },
     async next() {
       this.answerResult = false;
-
+      this.selnum = -1;
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&pre=1&_id=${this.radio._id}`
       );
@@ -173,6 +177,7 @@ export default {
     },
     async pre() {
       this.answerResult = false;
+      this.selnum = -1;
 
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/radio?pre=0&_id=${this.radio._id}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&userId=${this.uid}`

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <section class="head">
-      <h2>科目列表</h2>
-      <div>vuex的值为{{todos}}</div>
+      <h2>详细列表</h2>
+      <!-- <div>vuex的值为{{todos}}</div> -->
     </section>
     <section class="chapterList">
       <h2 v-if="isEmpty">内容为空</h2>
