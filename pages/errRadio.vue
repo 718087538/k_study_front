@@ -1,34 +1,64 @@
 <template>
   <div>
-    <h1 v-if="isEmpty">本章节下单选没有错题</h1>
-    <section v-if="!isEmpty">
-      <div v-html="radio.title"></div>
-      <li v-for="(item2,index) in radio.options " :key="index" @click="sel(index)">{{item2.value}}</li>
+    <h2 v-if="isEmpty">内容为空</h2>
 
-      <br />
-      <br />
-      <div v-show="selOver">
-        <li>
-          <span>答案：</span>
-          {{radio.answer.key}}
-        </li>
-        <li>你的答案{{myAnswer}}</li>
-        <li>回答结果：{{result}}</li>
+    <section v-if="!isEmpty"  class="content">
+       <div class="left">
+      <div v-html="radio.title"></div>
+ <li
+          class="options"
+          :class="{selItem:index===selnum,selHover:!selOver}"
+          v-for="(item2,index) in radio.options"
+          :key="index"
+          @click="sel(index)"
+        >{{item2.value}}</li>
+
+  <div class="answer" v-show="selOver">
+          <li>
+            <span>答案：</span>
+            {{radio.answer.key}}
+          </li>
+          <li>你的回答：{{myAnswer}}</li>
+          <li>回答结果：{{result}}</li>
+          <li>收藏状态: {{likeState}}</li>
+        </div>
+
+      <el-button @click="showKey" class="info">查看答案</el-button>
+        <el-button
+          @click="like"
+          v-if="likeState == 'like'"
+          type="warning"
+          icon="el-icon-success"
+          circle
+        ></el-button>
+        <el-button
+          @click="like"
+          v-if="likeState == 'noLike'"
+          type="warning"
+          icon="el-icon-star-off"
+          circle
+        ></el-button>
+           <el-button @click="pre" type="primary" plain>上一题</el-button>
+        <el-button @click="next" type="primary" plain>下一题</el-button>
+          </div>
+      <div class="right">
+        <ImgAd />
       </div>
-      <li>收藏状态:{{likeState}}</li>
-      <br />
-      <br />
-      <button>查看答案</button>
-      <button @click="like">收藏</button>
-      <button @click="pre">上一题</button>
-      <button @click="next">下一题</button>
+    </section>
+
+    <section>
+     
+       
+   
+
+    
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import ImgAd from "~/components/imgAd.vue";
 export default {
   data() {
     return {
@@ -41,6 +71,9 @@ export default {
       selOver: false, //是否选择过
       isEmpty: false
     };
+  },
+  components:{
+    ImgAd
   },
   async asyncData({ params, query }) {
     console.log(params, query);
@@ -163,5 +196,43 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+$pageWidth: 1000px;
+$setCenter: 0 auto;
+$hoverColor: red;
+
+.content {
+  width: $pageWidth;
+  margin: $setCenter;
+  margin-top: 30px;
+  display: flex;
+  .left {
+    flex: 1;
+  }
+  .options {
+    list-style: none;
+    margin: 6px 0;
+    cursor: pointer;
+    width: 70%;
+    padding: 8px 0;
+  }
+  .selHover {
+    &:hover {
+      background: rgb(85, 140, 223);
+      color: #fff;
+    }
+  }
+
+  .selItem {
+    background: rgb(85, 140, 223);
+    color: #fff;
+  }
+  .answer {
+    display: flex;
+    li {
+      margin-right: 24px;
+      list-style: none;
+    }
+  }
+}
 </style>
