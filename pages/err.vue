@@ -1,5 +1,7 @@
 <template>
   <div class="box">
+    <Header :selIndex="3"/>
+
     <section class="head">
       <h2>错题列表</h2>
     </section>
@@ -19,6 +21,7 @@
 
 <script>
 import axios from "axios";
+import Header from "~/components/header.vue";
 
 export default {
   name: "",
@@ -44,7 +47,8 @@ export default {
       cateList: data.data
     };
   },
-  components: {},
+   components: { Header },
+
   async mounted() {
     this.uid = localStorage.getItem("uid");
   }

@@ -1,10 +1,11 @@
 <template>
   <div class="box">
+    <Header :selIndex="2"/>
+
     <!-- 收藏项，题库列表 -->
     <section class="head">
       <h2>收藏列表</h2>
     </section>
-
     <section class="chapterList">
       <h2 v-if="empty">内容为空</h2>
       <ul v-if="!empty">
@@ -21,6 +22,7 @@
 
 <script>
 import axios from "axios";
+import Header from "~/components/header.vue";
 
 export default {
   name: "",
@@ -31,6 +33,7 @@ export default {
       cateList: []
     };
   },
+
   async asyncData({ params, query }) {
     console.log("aaa", query);
     let { data } = await axios.get(
@@ -46,7 +49,7 @@ export default {
       cateList: data.data
     };
   },
-  components: {},
+  components: { Header },
   async mounted() {
     this.uid = localStorage.getItem("uid");
   }
