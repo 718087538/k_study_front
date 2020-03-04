@@ -45,14 +45,6 @@
         <ImgAd />
       </div>
     </section>
-
-    <section>
-     
-       
-   
-
-    
-    </section>
   </div>
 </template>
 

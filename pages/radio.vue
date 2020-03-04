@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <nuxt-link to="#" v-for="(item,index) in radioList " :key="index">
-      <div v-html="item.title"></div>
-    </nuxt-link>-->
     <h2 v-if="isEmpty">内容为空</h2>
     <section class="content" v-if="!isEmpty">
       <div class="left">
