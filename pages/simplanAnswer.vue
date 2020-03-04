@@ -28,7 +28,7 @@
             </li>
             <p>你的回答：{{myKey}}</p>
           </div>
-          <el-button @click="showKey" type="info">查看答案</el-button>
+          <el-button @click="showKeys" type="info">查看答案</el-button>
           <el-button @click="like" type="warning" icon="el-icon-star-off" circle></el-button>
           <el-button @click="pre" type="primary" plain>上一题</el-button>
           <el-button @click="next" type="primary" plain>下一题</el-button>
@@ -97,8 +97,9 @@ export default {
       }
       this.selOver = true;
     },
-    showKey() {
-      this.answerResult = true;
+    showKeys() {
+      console.log("显示答案");
+      this.showKey = true;
     },
     async deleteErr() {
       let { data } = await axios.delete(
@@ -128,6 +129,7 @@ export default {
     },
 
     async next() {
+      this.selnum = -1;
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
       );
@@ -141,6 +143,8 @@ export default {
       }
     },
     async pre() {
+      this.selnum = -1;
+
       let { data } = await axios.get(
         `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=0&_id=${this.simpleAnswer._id}`
       );
