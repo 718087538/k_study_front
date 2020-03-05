@@ -55,7 +55,9 @@ export default {
       pageNum: "",
       myKey: "",
       result: "错",
-      likeState: "否"
+      likeState: "否",
+      selOver:false,
+      selnum:-1,
     };
   },
   components: {
