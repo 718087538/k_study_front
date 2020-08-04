@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <h1>前22222222222</h1>
-    <!-- <section class="header">
+    <section class="header">
       <div class="content">
         <div class="left">欢迎来开***</div>
         <div class="right" v-if="!isLogin">
@@ -82,7 +82,7 @@
           <img src="@/static/indexImg/n1.png" alt />
         </div>
       </div>
-    </section> -->
+    </section>
   </div>
 </template>
 
@@ -101,35 +101,35 @@ export default {
       userName: ""
     };
   },
-  // async asyncData() {
-  //   let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
-  //   console.log(data.data);
-  //   let comPuterList = [];
-  //   let selfExam = [];//自学考试临时变量
-  //   let tmpName = "";
-  //   for (let i of data.data) {
-  //     tmpName = i.name;
-  //     if (
-  //       tmpName === "MySQL" ||
-  //       tmpName === "Node.js" ||
-  //       tmpName === "算法" ||
-  //       tmpName === "数据结构" ||
-  //       tmpName === "MongoDB" ||
-  //       tmpName === "计算机网络" ||
-  //       tmpName === "操作系统"
-  //     ) {
-  //       comPuterList.push(i);
-  //     } else if (
-  //       tmpName === "自学考试" 
-  //     ) {
-  //       selfExam.push(i);
-  //     }
-  //   }
-  //   return {
-  //     selfExam: selfExam,
-  //     comPuterList: comPuterList
-  //   };
-  // },
+  async asyncData() {
+    let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
+    console.log(data.data);
+    let comPuterList = [];
+    let selfExam = [];//自学考试临时变量
+    let tmpName = "";
+    for (let i of data.data) {
+      tmpName = i.name;
+      if (
+        tmpName === "MySQL" ||
+        tmpName === "Node.js" ||
+        tmpName === "算法" ||
+        tmpName === "数据结构" ||
+        tmpName === "MongoDB" ||
+        tmpName === "计算机网络" ||
+        tmpName === "操作系统"
+      ) {
+        comPuterList.push(i);
+      } else if (
+        tmpName === "自学考试" 
+      ) {
+        selfExam.push(i);
+      }
+    }
+    return {
+      selfExam: selfExam,
+      comPuterList: comPuterList
+    };
+  },
 
   components: {},
   methods: {
@@ -142,18 +142,18 @@ export default {
   },
 
   mounted() {
-    // let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
-    // console.log("tmp值", tmp);
-    // if (tmp == "true") {
-    //   console.log("进入了string的true");
-    //   this.isLogin = true;
-    // } else {
-    //   console.log("进入了false");
-    //   this.isLogin = false;
-    // }
-    // console.log(this.isLogin);
-    // this.userName = localStorage.getItem("email");
-    // this.uid = localStorage.getItem("uid");
+    let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
+    console.log("tmp值", tmp);
+    if (tmp == "true") {
+      console.log("进入了string的true");
+      this.isLogin = true;
+    } else {
+      console.log("进入了false");
+      this.isLogin = false;
+    }
+    console.log(this.isLogin);
+    this.userName = localStorage.getItem("email");
+    this.uid = localStorage.getItem("uid");
   }
 };
 </script>
