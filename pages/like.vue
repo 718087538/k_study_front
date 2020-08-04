@@ -37,7 +37,7 @@ export default {
   async asyncData({ params, query }) {
     console.log("aaa", query);
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/likeCategory?userId=${query.uid}`
+      `http://106.53.238.187:8003/api/client/likeCategory?userId=${query.uid}`
     );
     console.log(data.data);
     if (data.data.length == 0) {

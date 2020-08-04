@@ -35,7 +35,7 @@ export default {
   methods:{
   async  changeData(){
         let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/changeData",
+        "http://106.53.238.187:8003/api/client/changeData",
         {
           uid: localStorage.getItem("uid"),
           name: this.name,
@@ -66,7 +66,7 @@ export default {
 
     }
         let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/changePassword",
+        "http://106.53.238.187:8003/api/client/changePassword",
         {
           uid: localStorage.getItem("uid"),
           oldPassword: this.oldPassword,

@@ -101,7 +101,7 @@ export default {
     };
   },
   async asyncData() {
-    let { data } = await axios.get(`http://127.0.0.1:7001/api/category`);
+    let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
     console.log(data.data);
     let comPuterList = [];
     let selfExam = [];//自学考试临时变量

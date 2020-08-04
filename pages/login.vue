@@ -2,7 +2,7 @@
   <div class="app">
     <div class="login">
       <div>
-        <h2 class="title">Study后台管理系统</h2>
+        <h2 class="title">Study学习系统</h2>
         <el-input
           class="user"
           placeholder="邮箱"
@@ -91,7 +91,7 @@ export default {
       //   return false;
       // }
       let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/login",
+        "http://106.53.238.187:8003/api/client/login",
         {
           email: this.account,
           password: this.password
@@ -152,7 +152,7 @@ export default {
   //     this.uuid = ids.generate();
   //     //验证码的uuid,记得要上线前删除打印记录
   //     console.log("uuid", this.uuid);
-  //     let { data } = await axios.post("http://127.0.0.1:7001/api/svg", {
+  //     let { data } = await axios.post("http://106.53.238.187:8003/api/svg", {
   //       uuid: this.uuid
   //     });
   //     console.log(data);

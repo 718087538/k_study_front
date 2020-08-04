@@ -73,7 +73,7 @@ export default {
   async asyncData({ params, query }) {
     console.log(params, query);
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
+      `http://106.53.238.187:8003/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&like=1`
     );
     console.log("收藏", data.data.res);
     if (data.data.res.length == 0) {
@@ -89,7 +89,7 @@ export default {
   methods: {
     async answerErr() {
       let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/errorQuestion",
+        "http://106.53.238.187:8003/api/client/errorQuestion",
         {
           userId: localStorage.getItem("uid"),
           categoryId: this.radio.category_id,
@@ -102,7 +102,7 @@ export default {
     async deleteErr() {
       //删除打错的题目
       let { data } = await axios.delete(
-        "http://127.0.0.1:7001/api/client/errorQuestion",
+        "http://106.53.238.187:8003/api/client/errorQuestion",
         {
           data: {
             userId: localStorage.getItem("uid"),
@@ -142,7 +142,7 @@ export default {
     },
     async like() {
       //收藏
-      let { data } = await axios.post("http://127.0.0.1:7001/api/client/like", {
+      let { data } = await axios.post("http://106.53.238.187:8003/api/client/like", {
         userId: localStorage.getItem("uid"),
         categoryId: this.radio.categoryId,
         chapterId: this.radio.chapterId,
@@ -157,7 +157,7 @@ export default {
     },
     async next() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&likeNext=1&questionId=${this.radio._id}`
+        `http://106.53.238.187:8003/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&likeNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       this.selOver = false;
@@ -173,7 +173,7 @@ export default {
     },
     async pre() {
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?likeNext=0&userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&questionId=${this.radio._id}`
+        `http://106.53.238.187:8003/api/client/radio?likeNext=0&userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&questionId=${this.radio._id}`
       );
       console.log("top question", data.code);
       this.selOver = false;

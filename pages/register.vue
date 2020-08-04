@@ -156,7 +156,7 @@ export default {
         });
       }
       let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/registerUser",
+        "http://106.53.238.187:8003/api/registerUser",
         {
           email: this.email,
           name: this.name,

@@ -71,7 +71,7 @@ export default {
     console.log(params, query);
     //err=1;代表错题的请求方式
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&err=1`
+      `http://106.53.238.187:8003/api/client/radio?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}&err=1`
     );
     console.log("sssaa", data.data);
     if (data.data.res.length == 0) {
@@ -88,7 +88,7 @@ export default {
     //已经事错题列表，不用再加为错题
     // async answerErr() {
     //   let { data } = await axios.post(
-    //     "http://127.0.0.1:7001/api/client/errorQuestion",
+    //     "http://106.53.238.187:8003/api/client/errorQuestion",
     //     {
     //       userId: localStorage.getItem("uid");
     //       categoryId: this.radio.category_id,
@@ -101,7 +101,7 @@ export default {
     async deleteErr() {
       //删除打错的题目
       let { data } = await axios.delete(
-        "http://127.0.0.1:7001/api/client/errorQuestion",
+        "http://106.53.238.187:8003/api/client/errorQuestion",
         {
           data: {
             userId: localStorage.getItem("uid"),
@@ -114,7 +114,7 @@ export default {
 
     async like() {
       //收藏
-      let { data } = await axios.post("http://127.0.0.1:7001/api/client/like", {
+      let { data } = await axios.post("http://106.53.238.187:8003/api/client/like", {
         userId: localStorage.getItem("uid"),
         categoryId: this.radio.categoryId,
         chapterId: this.radio.chapterId,
@@ -130,7 +130,7 @@ export default {
     async next() {
       this.selOver = false;
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=1&questionId=${this.radio._id}`
+        `http://106.53.238.187:8003/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=1&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       if (data.code === 201) {
@@ -143,7 +143,7 @@ export default {
       this.selOver = false;
 
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=0&questionId=${this.radio._id}`
+        `http://106.53.238.187:8003/api/client/radio?userId=${this.uid}&categoryId=${this.radio.categoryId}&chapterId=${this.radio.chapterId}&errNext=0&questionId=${this.radio._id}`
       );
       console.log("next question", data);
       if (data.code === 201) {

@@ -27,7 +27,7 @@ export default {
   async asyncData({ params, query }) {
     console.log("打印出查询的", query);
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/likeChapter?userId=${query.userId}&categoryId=${query.categoryId}`
+      `http://106.53.238.187:8003/api/client/likeChapter?userId=${query.userId}&categoryId=${query.categoryId}`
     );
 
     if (data.data.length == 0) {

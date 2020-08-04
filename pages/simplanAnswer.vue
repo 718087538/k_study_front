@@ -66,7 +66,7 @@ export default {
   async asyncData({ params, query }) {
     //userId到时候要动态获取，vuex或者缓存或者其他方式登陆时存起来
     let { data } = await axios.get(
-      `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}`
+      `http://106.53.238.187:8003/api/client/simpleAnswer?userId=${query.userId}&categoryId=${query.categoryId}&chapterId=${query.chapterId}`
     );
     console.log(data);
     if (data.data.length == 0) {
@@ -103,7 +103,7 @@ export default {
     },
     async deleteErr() {
       let { data } = await axios.delete(
-        "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
+        "http://106.53.238.187:8003/api/client/errorSimpleAnswer",
         {
           data: {
             userId: localStorage.getItem("uid"),
@@ -117,7 +117,7 @@ export default {
     },
     async answerErr() {
       let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/errorSimpleAnswer",
+        "http://106.53.238.187:8003/api/client/errorSimpleAnswer",
         {
           userId: localStorage.getItem("uid"),
           categoryId: this.simpleAnswer.categoryId,
@@ -131,7 +131,7 @@ export default {
     async next() {
       this.selnum = -1;
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
+        `http://106.53.238.187:8003/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=1&_id=${this.simpleAnswer._id}`
       );
       this.showKey = false;
       this.myKey = " ";
@@ -146,7 +146,7 @@ export default {
       this.selnum = -1;
 
       let { data } = await axios.get(
-        `http://127.0.0.1:7001/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=0&_id=${this.simpleAnswer._id}`
+        `http://106.53.238.187:8003/api/client/simpleAnswer?userId=${this.uid}&categoryId=${this.simpleAnswer.categoryId}&chapterId=${this.simpleAnswer.chapterId}&pre=0&_id=${this.simpleAnswer._id}`
       );
       this.showKey = false;
       this.myKey = " ";
@@ -159,7 +159,7 @@ export default {
     async like() {
       //收藏
       let { data } = await axios.post(
-        "http://127.0.0.1:7001/api/client/simpleAnswerLike",
+        "http://106.53.238.187:8003/api/client/simpleAnswerLike",
         {
           userId: localStorage.getItem("uid"),
           categoryId: this.simpleAnswer.categoryId,
