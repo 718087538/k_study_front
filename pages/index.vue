@@ -48,9 +48,9 @@
                 <!-- 悬浮显示 -->
                 <div class="infoBox">
                   <h2>{{ item.firstCategory }}</h2>
-                  <span v-for="(item2, index2) in item.secondCategories" :key="index2"
-                    >{{ item2.secondCategory }} /</span
-                  >
+                  <div v-for="(item2, index2) in item.secondCategories" :key="index2">{{ item2.secondCategory }} | 
+                    <span v-for="item in 5" :key="item">PHP | </span> 
+                  </div>
                 </div>
               </li>
             </ul>
@@ -158,54 +158,7 @@ export default {
       selfExam: [], //自学考试类
       comPuterList: [],
       userName: "",
-      firstCategories: [
-        {
-          type: "财会金融",
-          infoList: [
-            { title: "注册会计师", params: 1 },
-            { title: "初级会计", params: 1 },
-            { title: "注册会计师", params: 1 },
-            { title: "初级会计", params: 1 },
-            { title: "注册会计师", params: 1 },
-            { title: "初级会计", params: 1 },
-          ],
-        },
-        {
-          type: "建筑工程",
-          infoList: [
-            { title: "二级建造师", params: 1 },
-            { title: "一级建造师", params: 1 },
-          ],
-        },
-        {
-          type: "办公软件",
-          infoList: [
-            { title: "二级建造师", params: 1 },
-            { title: "一级建造师", params: 1 },
-          ],
-        },
-        {
-          type: "电脑基础",
-          infoList: [
-            { title: "二级建造师", params: 1 },
-            { title: "一级建造师", params: 1 },
-          ],
-        },
-        {
-          type: "编程开发",
-          infoList: [
-            { title: "二级建造师", params: 1 },
-            { title: "一级建造师", params: 1 },
-          ],
-        },
-        {
-          type: "设计创意",
-          infoList: [
-            { title: "二级建造师", params: 1 },
-            { title: "一级建造师", params: 1 },
-          ],
-        },
-      ],
+      firstCategories: [],
       firstCategoryIndex: 0,
       classListIndex: 0,
       levelIndex: 0,
