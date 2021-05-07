@@ -1,22 +1,23 @@
 <template>
   <div class="box">
-    <h1>前22222222222</h1>
     <section class="header">
       <div class="content">
         <div class="left">欢迎来开***</div>
         <div class="right" v-if="!isLogin">
-          <nuxt-link :to="{path:'login/'}">登陆</nuxt-link>
-          <nuxt-link :to="{path:'register/'}">注册</nuxt-link>
+          <nuxt-link :to="{ path: 'login/' }">登陆</nuxt-link>
+          <nuxt-link :to="{ path: 'register/' }">注册</nuxt-link>
         </div>
         <div class="right" v-if="isLogin">
           <el-dropdown>
             <span class="el-dropdown-link">
-              用户：{{userName}}
+              用户：{{ userName }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <nuxt-link :to="{path:'myData/',query: {uid: uid }}">修改资料</nuxt-link>
+                <nuxt-link :to="{ path: 'myData/', query: { uid: uid } }"
+                  >修改资料</nuxt-link
+                >
               </el-dropdown-item>
               <el-dropdown-item>
                 <div @click="signOut">退出登陆</div>
@@ -26,63 +27,117 @@
         </div>
       </div>
     </section>
+
     <section class="navBox">
-      <nav>
+      <div class="contentBox">
+        <div class="left">
+          <ul>
+            <li
+              v-for="(item, index) in navList"
+              :key="index"
+              :class="{ seled: index === firstCategoryIndex }"
+            >
+              <div class="listTitle">
+                <span>{{ item.type }}</span>
+                :
+                <span v-for="(item2, index2) in item.infoList" :key="index2"
+                  >{{ item2.title }} /</span
+                >
+              </div>
+
+              <!-- 悬浮显示 -->
+              <div class="infoBox">
+                <h2>{{ item.type }}</h2>
+                <span v-for="(item2, index2) in item.infoList" :key="index2"
+                  >{{ item2.title }} /</span
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <el-carousel height="400px">
+            <el-carousel-item v-for="item in swiperList" :key="item">
+              <img class="swiperImg" :src="item.src" alt="" />
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      </div>
+      <div class="bottomBox"></div>
+      <!-- <nav>
         <a href="javascript:void(0)" class="sel">首页</a>
-        <nuxt-link :to="{path:'like/',query: {uid: uid }}">我的收藏</nuxt-link>
-        <nuxt-link :to="{path:'err/',query: {uid: uid }}">错题本</nuxt-link>
-      </nav>
+        <nuxt-link :to="{ path: 'like/', query: { uid: uid } }"
+          >我的收藏</nuxt-link
+        >
+        <nuxt-link :to="{ path: 'err/', query: { uid: uid } }"
+          >错题本</nuxt-link
+        >
+      </nav> -->
     </section>
-    <section class="subject">
-      <div class="left">
-        <div class="selfEdu">
-          <h1>
-            <p class="title">学历教育</p>
-            <div class="stand"></div>
-          </h1>
-          <ul>
-            <li>
-              <nuxt-link
-                v-for="(item,index) in selfExam"
-                :key="index"
-                :to="{path:'chapter/',query: {cate: item._id }}"
-              >{{item.name}}</nuxt-link>
-            </li>
-          </ul>
-        </div>
-        <div class="selfEdu">
-          <h1>
-            <p class="title">外语类</p>
-            <div class="stand"></div>
-          </h1>
-          <ul>
-            <li>
-              <a href="JavaScript:void(0)">敬请期待</a>
-            </li>
-          </ul>
-        </div>
-        <div class="selfEdu">
-          <h1>
-            <p class="title">计算机类</p>
-            <div class="stand"></div>
-          </h1>
-          <ul>
-            <li>
-              <nuxt-link
-                v-for="(item,index) in comPuterList"
-                :key="index"
-                :to="{path:'chapter/',query: {cate: item._id }}"
-              >{{item.name}}</nuxt-link>
-            </li>
-          </ul>
-        </div>
+
+    <section class="courseCategory">
+      <div class="tab direction">
+        <div class="name">方向：</div>
+        <ul>
+          <li
+            v-for="(item, index) in firstCategory"
+            :key="index"
+            :class="{ seled: index === firstCategoryIndex }"
+            @click="changeCategory('firstCategory', index)"
+          >
+            {{ item.title }}
+          </li>
+        </ul>
       </div>
-      <div class="right">
-        <div class="imgBox">
-          <img src="@/static/indexImg/n1.png" alt />
-        </div>
+      <div class="tab">
+        <div class="name">分类：</div>
+        <ul>
+          <li
+            v-for="(item, index) in classList"
+            :key="index"
+            :class="{ seled: index === classListIndex }"
+            @click="changeCategory('classList', index)"
+          >
+            {{ item.title }}
+          </li>
+        </ul>
+      </div>
+      <div class="tab">
+        <div class="name">难度：</div>
+        <ul>
+          <li
+            v-for="(item, index) in level"
+            :key="index"
+            :class="{ seled: index === levelIndex }"
+            @click="changeCategory('level', index)"
+          >
+            {{ item.title }}
+          </li>
+        </ul>
       </div>
     </section>
+    <section class="courseList">
+      <ul>
+        <li v-for="(item, index) in courseList" :key="index">
+          <img :src="item.imgSrc" alt="" />
+          <div class="intro">
+            <p>{{ item.title }}</p>
+            <p>{{ item.level }}~{{ item.seeTimes }}人学习</p>
+            <div class="likeBtn">收藏</div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <el-pagination
+      class="pagination"
+      background
+      layout="prev, pager, next"
+      :total="1000"
+    >
+    </el-pagination>
+    <footer class="footer">
+      <h1>末尾</h1>
+    </footer>
   </div>
 </template>
 
@@ -96,16 +151,208 @@ export default {
       uid: "",
       isLogin: false, //是否登陆的状态
       cateList: [],
-      selfExam:[],//自学考试类
+      selfExam: [], //自学考试类
       comPuterList: [],
-      userName: ""
+      userName: "",
+      navList: [
+        {
+          type: "财会金融",
+          infoList: [
+            { title: "注册会计师", params: 1 },
+            { title: "初级会计", params: 1 },
+            { title: "注册会计师", params: 1 },
+            { title: "初级会计", params: 1 },
+            { title: "注册会计师", params: 1 },
+            { title: "初级会计", params: 1 },
+          ],
+        },
+        {
+          type: "建筑工程",
+          infoList: [
+            { title: "二级建造师", params: 1 },
+            { title: "一级建造师", params: 1 },
+          ],
+        },
+        {
+          type: "办公软件",
+          infoList: [
+            { title: "二级建造师", params: 1 },
+            { title: "一级建造师", params: 1 },
+          ],
+        },
+        {
+          type: "电脑基础",
+          infoList: [
+            { title: "二级建造师", params: 1 },
+            { title: "一级建造师", params: 1 },
+          ],
+        },
+        {
+          type: "编程开发",
+          infoList: [
+            { title: "二级建造师", params: 1 },
+            { title: "一级建造师", params: 1 },
+          ],
+        },
+        {
+          type: "设计创意",
+          infoList: [
+            { title: "二级建造师", params: 1 },
+            { title: "一级建造师", params: 1 },
+          ],
+        },
+      ],
+      firstCategoryIndex: 0,
+      classListIndex: 0,
+      levelIndex: 0,
+      firstCategory: [
+        { id: 1, title: "前端" },
+        { id: 1, title: "前端" },
+        { id: 1, title: "前端" },
+        { id: 1, title: "前端" },
+      ],
+      classList: [
+        { id: 1, title: "HTML" },
+        { id: 1, title: "HTML" },
+        { id: 1, title: "HTML" },
+        { id: 1, title: "HTML" },
+      ],
+      level: [
+        { id: 1, title: "入门" },
+        { id: 1, title: "中等" },
+        { id: 1, title: "困难" },
+      ],
+      courseList: [
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+        {
+          id: 1,
+          title: "从松是法国辣椒水地理空间拉萨空间的拉伸",
+          imgSrc:
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2676935521,922112450&fm=11&gp=0.jpg",
+          seeTimes: 10,
+          level: "中级",
+        },
+      ],
+      swiperList: [
+        {
+          src:
+            "http://edu-image.nosdn.127.net/318d882bd0ef4d4d847992978e2ea163.jpg?imageView&quality=100",
+        },
+        {
+          src:
+            "http://edu-image.nosdn.127.net/4a7f00d2f0b64843910538d02a0a6770.png?imageView&quality=100",
+        },
+        {
+          src:
+            "http://edu-image.nosdn.127.net/cea243532f644683935a4f4887789ce6.png?imageView&quality=100",
+        },
+        {
+          src:
+            "http://edu-image.nosdn.127.net/318d882bd0ef4d4d847992978e2ea163.jpg?imageView&quality=100",
+        },
+      ],
     };
   },
   async asyncData() {
     let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
     console.log(data.data);
     let comPuterList = [];
-    let selfExam = [];//自学考试临时变量
+    let selfExam = []; //自学考试临时变量
     let tmpName = "";
     for (let i of data.data) {
       tmpName = i.name;
@@ -119,15 +366,13 @@ export default {
         tmpName === "操作系统"
       ) {
         comPuterList.push(i);
-      } else if (
-        tmpName === "自学考试" 
-      ) {
+      } else if (tmpName === "自学考试") {
         selfExam.push(i);
       }
     }
     return {
       selfExam: selfExam,
-      comPuterList: comPuterList
+      comPuterList: comPuterList,
     };
   },
 
@@ -138,7 +383,21 @@ export default {
       localStorage.removeItem("token");
       localStorage.removeItem("uid");
       localStorage.removeItem("email");
-    }
+    },
+    changeCategory(type, index) {
+      console.log(`类型是${type},index是${index}`);
+      switch (type) {
+        case "firstCategory":
+          this.firstCategoryIndex = index;
+          break;
+        case "classList":
+          this.classListIndex = index;
+          break;
+        case "level":
+          this.levelIndex = index;
+          break;
+      }
+    },
   },
 
   mounted() {
@@ -154,14 +413,16 @@ export default {
     console.log(this.isLogin);
     this.userName = localStorage.getItem("email");
     this.uid = localStorage.getItem("uid");
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-$pageWidth: 1000px;
+$pageWidth: 1200px;
 $setCenter: 0 auto;
 $hoverColor: red;
+$font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
+  "Helvetica Neue", Tahoma, Arial, sans-serif;
 
 .header {
   background: rgba(202, 199, 202, 0.533);
@@ -182,12 +443,134 @@ $hoverColor: red;
     }
   }
 }
+.courseCategory {
+  width: $pageWidth;
+  margin: 30px auto;
+  .tab {
+    display: flex;
+    margin: 16px 0;
+  }
+  ul {
+    flex: 1;
+    display: flex;
+    padding: 0;
+    li {
+      list-style: none;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+    .seled {
+      color: red;
+      background: rgba(242, 13, 13, 0.06);
+    }
+  }
+}
+.courseList {
+  width: $pageWidth;
+  margin: $setCenter;
+  ul {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      width: 282px;
+      height: 270px;
+      list-style: none;
+      margin: 0 24px 24px 0;
+      box-shadow: 0 4px 8px 0 rgb(95, 101, 105);
+      border-radius: 8px;
+      background-color: #fff;
+      transition: all 0.2s;
+      overflow: hidden;
+      cursor: pointer;
+
+      &:hover {
+        margin-top: -6px;
+        box-shadow: 0 10px 10px 0 rgb(79, 84, 87);
+      }
+      img {
+        width: 100%;
+        height: 152px;
+      }
+      .intro {
+        padding: 0 10px;
+        box-sizing: border-box;
+        font: $font;
+        color: #545c63;
+        .likeBtn {
+          float: right;
+        }
+      }
+    }
+    li:nth-child(4n + 4) {
+      margin-right: 0 !important;
+    }
+  }
+}
 .navBox {
-  background: rgb(15, 157, 88);
-  height: 40px;
+  width: $pageWidth;
+  margin: $setCenter;
   margin: {
     top: 30px;
   }
+  .contentBox {
+    display: flex !important;
+    justify-content: space-between;
+    height: 400px;
+    .left {
+      width: 240px;
+      background: rgba(28, 31, 33, 0.1);
+      border-radius: 8px;
+      margin-right: 10px;
+      box-sizing: border-box;
+
+      ul {
+        padding: 20px 0;
+        position: relative;
+
+        li {
+          list-style: none;
+          background: cadetblue;
+          cursor: pointer;
+          &:hover {
+            background: rgb(167, 164, 164);
+            .infoBox {
+              display: block;
+            }
+          }
+      
+          .infoBox {
+            position: absolute;
+            display: none;
+            z-index: 100;
+            left: 236px;
+            top: 0;
+            width: 600px;
+            height: 400px;
+            background: #FFF;
+            border-radius: 0 10px 10px 0;
+          }
+          .listTitle {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 10px;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+    .right {
+      flex: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      .swiperImg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
   nav {
     width: $pageWidth;
     margin: $setCenter;
@@ -209,80 +592,29 @@ $hoverColor: red;
     }
   }
 }
-.subject {
-  width: $pageWidth;
-  margin: $setCenter;
-  padding-top: 20px;
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+footer {
+  color: rgb(92, 25, 25);
+  margin-top: 30px;
+  padding: 50px 0;
+  background: rgb(161, 159, 159);
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
 
-  display: flex;
-  .left {
-    width: 720px;
-    .selfEdu {
-      margin-top: 20px;
-      &:nth-child(1) {
-        margin-top: 0;
-      }
-      h1 {
-        border-top: 1px solid rgb(15, 157, 88);
-        background: #f1f1f1;
-        height: 40px;
-        display: flex;
-        .title {
-          background: rgb(15, 157, 88);
-          width: 160px;
-          text-align: center;
-          height: 40px;
-          color: #fff;
-          margin: 0;
-        }
-        .stand {
-          display: inline-block;
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(
-            135deg,
-            rgb(15, 157, 88),
-            rgb(15, 157, 88) 28px,
-            #f1f1f1,
-            #f1f1f1 20px
-          );
-        }
-      }
-      ul {
-        // display: flex;
-        // flex-wrap: wrap;
-        border: 1px solid rgb(223, 220, 220);
-        padding: 0 10px;
-        li {
-          margin: 10px;
-          list-style: none;
-          font-size: 20px;
-          border-top: 1px solid rgb(223, 220, 220);
-          padding: 10px 0px;
-          a {
-            color: #333;
-            text-decoration: none;
-            padding: 0 6px;
-            &:hover {
-              color: $hoverColor;
-            }
-          }
-        }
-      }
-    }
-  }
-  .right {
-    background: #000;
-    width: 260px;
-    height: 20px;
-    margin-left: 20px;
-    .imgBox {
-      img {
-        width: 100%;
-        height: 140px;
-        border-radius: 4px;
-      }
-    }
-  }
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
