@@ -33,23 +33,23 @@
           <div class="left">
             <ul>
               <li
-                v-for="(item, index) in navList"
+                v-for="(item, index) in firstCategories"
                 :key="index"
                 :class="{ seled: index === firstCategoryIndex }"
               >
                 <div class="listTitle">
-                  <span>{{ item.type }}</span>
+                  <span>{{ item.firstCategory }}</span>
                   :
-                  <span v-for="(item2, index2) in item.infoList" :key="index2"
-                    >{{ item2.title }} /</span
+                  <span v-for="(item2, index2) in item.secondCategories" :key="index2"
+                    >{{ item2.secondCategory }} /</span
                   >
                 </div>
 
                 <!-- 悬浮显示 -->
                 <div class="infoBox">
-                  <h2>{{ item.type }}</h2>
-                  <span v-for="(item2, index2) in item.infoList" :key="index2"
-                    >{{ item2.title }} /</span
+                  <h2>{{ item.firstCategory }}</h2>
+                  <span v-for="(item2, index2) in item.secondCategories" :key="index2"
+                    >{{ item2.secondCategory }} /</span
                   >
                 </div>
               </li>
@@ -57,7 +57,10 @@
           </div>
           <div class="right">
             <el-carousel height="400px">
-              <el-carousel-item v-for="(item,index) in swiperList" :key="index">
+              <el-carousel-item
+                v-for="(item, index) in swiperList"
+                :key="index"
+              >
                 <img class="swiperImg" :src="item.src" alt="" />
               </el-carousel-item>
             </el-carousel>
@@ -143,7 +146,7 @@
 
 <script>
 import axios from "axios";
-import {test} from "../plugins/api/test";
+import { test } from "../plugins/api/test";
 
 export default {
   name: "",
@@ -155,7 +158,7 @@ export default {
       selfExam: [], //自学考试类
       comPuterList: [],
       userName: "",
-      navList: [
+      firstCategories: [
         {
           type: "财会金融",
           infoList: [
@@ -350,10 +353,10 @@ export default {
     };
   },
   async asyncData() {
-    let item = await test();
-    console.log("请求》》》》》》》》》》", item)
-
-
+    let {firstCategories} = await test();
+    return {
+      firstCategories: firstCategories,
+    };
 
     // let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
     // console.log(data.data);
@@ -520,7 +523,7 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
   .navBox {
     width: $pageWidth;
     margin: $setCenter;
-  
+
     .contentBox {
       display: flex !important;
       justify-content: space-between;
@@ -538,10 +541,10 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
 
           li {
             list-style: none;
-            background:#e9e7e6;
+            background: #e9e7e6;
             cursor: pointer;
             &:hover {
-              background: #FFF;
+              background: #fff;
               .infoBox {
                 display: block;
               }
