@@ -27,44 +27,44 @@
         </div>
       </div>
     </section>
+    <section class="direcBox">
+      <div class="navBox">
+        <div class="contentBox">
+          <div class="left">
+            <ul>
+              <li
+                v-for="(item, index) in navList"
+                :key="index"
+                :class="{ seled: index === firstCategoryIndex }"
+              >
+                <div class="listTitle">
+                  <span>{{ item.type }}</span>
+                  :
+                  <span v-for="(item2, index2) in item.infoList" :key="index2"
+                    >{{ item2.title }} /</span
+                  >
+                </div>
 
-    <section class="navBox">
-      <div class="contentBox">
-        <div class="left">
-          <ul>
-            <li
-              v-for="(item, index) in navList"
-              :key="index"
-              :class="{ seled: index === firstCategoryIndex }"
-            >
-              <div class="listTitle">
-                <span>{{ item.type }}</span>
-                :
-                <span v-for="(item2, index2) in item.infoList" :key="index2"
-                  >{{ item2.title }} /</span
-                >
-              </div>
-
-              <!-- 悬浮显示 -->
-              <div class="infoBox">
-                <h2>{{ item.type }}</h2>
-                <span v-for="(item2, index2) in item.infoList" :key="index2"
-                  >{{ item2.title }} /</span
-                >
-              </div>
-            </li>
-          </ul>
+                <!-- 悬浮显示 -->
+                <div class="infoBox">
+                  <h2>{{ item.type }}</h2>
+                  <span v-for="(item2, index2) in item.infoList" :key="index2"
+                    >{{ item2.title }} /</span
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <el-carousel height="400px">
+              <el-carousel-item v-for="(item,index) in swiperList" :key="index">
+                <img class="swiperImg" :src="item.src" alt="" />
+              </el-carousel-item>
+            </el-carousel>
+          </div>
         </div>
-        <div class="right">
-          <el-carousel height="400px">
-            <el-carousel-item v-for="item in swiperList" :key="item">
-              <img class="swiperImg" :src="item.src" alt="" />
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </div>
-      <div class="bottomBox"></div>
-      <!-- <nav>
+        <div class="bottomBox"></div>
+        <!-- <nav>
         <a href="javascript:void(0)" class="sel">首页</a>
         <nuxt-link :to="{ path: 'like/', query: { uid: uid } }"
           >我的收藏</nuxt-link
@@ -73,8 +73,8 @@
           >错题本</nuxt-link
         >
       </nav> -->
+      </div>
     </section>
-
     <section class="courseCategory">
       <div class="tab direction">
         <div class="name">方向：</div>
@@ -143,6 +143,7 @@
 
 <script>
 import axios from "axios";
+import {test} from "../plugins/api/test";
 
 export default {
   name: "",
@@ -349,31 +350,36 @@ export default {
     };
   },
   async asyncData() {
-    let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
-    console.log(data.data);
-    let comPuterList = [];
-    let selfExam = []; //自学考试临时变量
-    let tmpName = "";
-    for (let i of data.data) {
-      tmpName = i.name;
-      if (
-        tmpName === "MySQL" ||
-        tmpName === "Node.js" ||
-        tmpName === "算法" ||
-        tmpName === "数据结构" ||
-        tmpName === "MongoDB" ||
-        tmpName === "计算机网络" ||
-        tmpName === "操作系统"
-      ) {
-        comPuterList.push(i);
-      } else if (tmpName === "自学考试") {
-        selfExam.push(i);
-      }
-    }
-    return {
-      selfExam: selfExam,
-      comPuterList: comPuterList,
-    };
+    let item = await test();
+    console.log("请求》》》》》》》》》》", item)
+
+
+
+    // let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
+    // console.log(data.data);
+    // let comPuterList = [];
+    // let selfExam = []; //自学考试临时变量
+    // let tmpName = "";
+    // for (let i of data.data) {
+    //   tmpName = i.name;
+    //   if (
+    //     tmpName === "MySQL" ||
+    //     tmpName === "Node.js" ||
+    //     tmpName === "算法" ||
+    //     tmpName === "数据结构" ||
+    //     tmpName === "MongoDB" ||
+    //     tmpName === "计算机网络" ||
+    //     tmpName === "操作系统"
+    //   ) {
+    //     comPuterList.push(i);
+    //   } else if (tmpName === "自学考试") {
+    //     selfExam.push(i);
+    //   }
+    // }
+    // return {
+    //   selfExam: selfExam,
+    //   comPuterList: comPuterList,
+    // };
   },
 
   components: {},
@@ -401,18 +407,18 @@ export default {
   },
 
   mounted() {
-    let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
-    console.log("tmp值", tmp);
-    if (tmp == "true") {
-      console.log("进入了string的true");
-      this.isLogin = true;
-    } else {
-      console.log("进入了false");
-      this.isLogin = false;
-    }
-    console.log(this.isLogin);
-    this.userName = localStorage.getItem("email");
-    this.uid = localStorage.getItem("uid");
+    // let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
+    // console.log("tmp值", tmp);
+    // if (tmp == "true") {
+    //   console.log("进入了string的true");
+    //   this.isLogin = true;
+    // } else {
+    //   console.log("进入了false");
+    //   this.isLogin = false;
+    // }
+    // console.log(this.isLogin);
+    // this.userName = localStorage.getItem("email");
+    // this.uid = localStorage.getItem("uid");
   },
 };
 </script>
@@ -507,91 +513,95 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
     }
   }
 }
-.navBox {
-  width: $pageWidth;
-  margin: $setCenter;
-  margin: {
-    top: 30px;
-  }
-  .contentBox {
-    display: flex !important;
-    justify-content: space-between;
-    height: 400px;
-    .left {
-      width: 240px;
-      background: rgba(28, 31, 33, 0.1);
-      border-radius: 8px;
-      margin-right: 10px;
-      box-sizing: border-box;
+.direcBox {
+  background: #f2f2f2;
+  overflow: hidden;
+  padding: 30px 0;
+  .navBox {
+    width: $pageWidth;
+    margin: $setCenter;
+  
+    .contentBox {
+      display: flex !important;
+      justify-content: space-between;
+      height: 400px;
+      .left {
+        width: 240px;
+        background: #e9e7e6;
+        border-radius: 8px;
+        margin-right: 10px;
+        box-sizing: border-box;
 
-      ul {
-        padding: 20px 0;
-        position: relative;
+        ul {
+          padding: 20px 0;
+          position: relative;
 
-        li {
-          list-style: none;
-          background: cadetblue;
-          cursor: pointer;
-          &:hover {
-            background: rgb(167, 164, 164);
-            .infoBox {
-              display: block;
+          li {
+            list-style: none;
+            background:#e9e7e6;
+            cursor: pointer;
+            &:hover {
+              background: #FFF;
+              .infoBox {
+                display: block;
+              }
             }
-          }
-      
-          .infoBox {
-            position: absolute;
-            display: none;
-            z-index: 100;
-            left: 236px;
-            top: 0;
-            width: 600px;
-            height: 400px;
-            background: #FFF;
-            border-radius: 0 10px 10px 0;
-          }
-          .listTitle {
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 10px;
-            text-overflow: ellipsis;
+
+            .infoBox {
+              position: absolute;
+              display: none;
+              z-index: 100;
+              left: 236px;
+              top: 0;
+              width: 600px;
+              height: 400px;
+              background: #fff;
+              border-radius: 0 10px 10px 0;
+            }
+            .listTitle {
+              width: 100%;
+              overflow: hidden;
+              white-space: nowrap;
+              padding: 10px;
+              text-overflow: ellipsis;
+            }
           }
         }
       }
-    }
-    .right {
-      flex: 1;
-      border-radius: 8px;
-      overflow: hidden;
-      .swiperImg {
-        width: 100%;
-        height: 100%;
+      .right {
+        flex: 1;
+        border-radius: 8px;
+        overflow: hidden;
+        .swiperImg {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
-  }
 
-  nav {
-    width: $pageWidth;
-    margin: $setCenter;
-    line-height: 40px;
-    a {
-      color: #fff;
-      display: inline-block;
-      width: 100px;
-      text-align: center;
-      text-decoration: none;
-      &:hover {
-        background: rgb(255, 114, 0);
+    nav {
+      width: $pageWidth;
+      margin: $setCenter;
+      line-height: 40px;
+      a {
+        color: #fff;
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        text-decoration: none;
+        &:hover {
+          background: rgb(255, 114, 0);
+        }
       }
-    }
-    .sel {
-      background: rgb(255, 114, 0);
-      margin: 0;
-      border: 0;
+      .sel {
+        background: rgb(255, 114, 0);
+        margin: 0;
+        border: 0;
+      }
     }
   }
 }
+
 .pagination {
   text-align: center;
   margin-top: 20px;
