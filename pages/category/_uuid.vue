@@ -2,7 +2,7 @@
   <div class="box">
     <section class="header">
       <div class="content">
-        <div class="left">欢迎来开***</div>
+        <div class="left">欢迎分类页面</div>
         <div class="right" v-if="!isLogin">
           <nuxt-link :to="{ path: 'login/' }">登陆</nuxt-link>
           <nuxt-link :to="{ path: 'register/' }">注册</nuxt-link>
@@ -27,74 +27,18 @@
         </div>
       </div>
     </section>
-    <section class="direcBox">
-      <div class="navBox">
-        <div class="contentBox">
-          <div class="left">
-            <ul>
-              <li
-                v-for="(item, index) in firstCategories"
-                :key="index"
-                :class="{ seled: index === firstCategoryIndex }"
-              >
-                <div class="listTitle">
-                  <span>{{ item.firstCategory }}</span>
-                  :
-                  <span
-                    v-for="(item2, index2) in item.secondCategories"
-                    :key="index2"
-                    >{{ item2.secondCategory }} /</span
-                  >
-                </div>
 
-                <!-- 悬浮显示 -->
-                <div class="infoBox">
-                  <h2>{{ item.firstCategory }}</h2>
-                  <div
-                    v-for="(item2, index2) in item.secondCategories"
-                    :key="index2"
-                  >
-                    {{ item2.secondCategory }} |
-                    <span v-for="item in 5" :key="item">PHP | </span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="right">
-            <el-carousel height="400px">
-              <el-carousel-item
-                v-for="(item, index) in swiperList"
-                :key="index"
-              >
-                <img class="swiperImg" :src="item.src" alt="" />
-              </el-carousel-item>
-            </el-carousel>
-          </div>
-        </div>
-        <div class="bottomBox"></div>
-        <!-- <nav>
-        <a href="javascript:void(0)" class="sel">首页</a>
-        <nuxt-link :to="{ path: 'like/', query: { uid: uid } }"
-          >我的收藏</nuxt-link
-        >
-        <nuxt-link :to="{ path: 'err/', query: { uid: uid } }"
-          >错题本</nuxt-link
-        >
-      </nav> -->
-      </div>
-    </section>
     <section class="courseCategory">
       <div class="tab direction">
         <div class="name">方向：</div>
         <ul>
           <li
-            v-for="(item, index) in firstCategory"
+            v-for="(item, index) in secondCategories"
             :key="index"
             :class="{ seled: index === firstCategoryIndex }"
             @click="changeCategory('firstCategory', index)"
           >
-            {{ item.title }}
+            {{ item.secondCategory }}
           </li>
         </ul>
       </div>
@@ -102,7 +46,7 @@
         <div class="name">分类：</div>
         <ul>
           <li
-            v-for="(item, index) in classList"
+            v-for="(item, index) in threeCategories"
             :key="index"
             :class="{ seled: index === classListIndex }"
             @click="changeCategory('classList', index)"
@@ -152,7 +96,7 @@
 
 <script>
 import axios from "axios";
-import { videoCourse } from "../plugins/api/course";
+import { clientCategory } from "@/plugins/api/course";
 
 export default {
   name: "",
@@ -168,18 +112,10 @@ export default {
       firstCategoryIndex: 0,
       classListIndex: 0,
       levelIndex: 0,
-      firstCategory: [
-        { id: 1, title: "前端" },
-        { id: 1, title: "前端" },
-        { id: 1, title: "前端" },
-        { id: 1, title: "前端" },
-      ],
-      classList: [
-        { id: 1, title: "HTML" },
-        { id: 1, title: "HTML" },
-        { id: 1, title: "HTML" },
-        { id: 1, title: "HTML" },
-      ],
+      // secondCategories,
+      // threeCategories,
+      secondCategories: [],
+      threeCategories: [],
       level: [
         { id: 1, title: "入门" },
         { id: 1, title: "中等" },
@@ -311,36 +247,16 @@ export default {
       ],
     };
   },
-  async asyncData() {
-    let {firstCategories} = await videoCourse();
+  async asyncData({ params }) {
+    console.log("接收参数", params);
+    let  { firstCategories,secondCategories, threeCategories}  = await clientCategory(params);
+
     return {
-      firstCategories: firstCategories,
+      firstCategories:firstCategories,
+      secondCategories:secondCategories,
+      threeCategories:threeCategories,
     };
-    // let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
-    // console.log(data.data);
-    // let comPuterList = [];
-    // let selfExam = []; //自学考试临时变量
-    // let tmpName = "";
-    // for (let i of data.data) {
-    //   tmpName = i.name;
-    //   if (
-    //     tmpName === "MySQL" ||
-    //     tmpName === "Node.js" ||
-    //     tmpName === "算法" ||
-    //     tmpName === "数据结构" ||
-    //     tmpName === "MongoDB" ||
-    //     tmpName === "计算机网络" ||
-    //     tmpName === "操作系统"
-    //   ) {
-    //     comPuterList.push(i);
-    //   } else if (tmpName === "自学考试") {
-    //     selfExam.push(i);
-    //   }
-    // }
-    // return {
-    //   selfExam: selfExam,
-    //   comPuterList: comPuterList,
-    // };
+
   },
 
   components: {},
@@ -352,9 +268,6 @@ export default {
       localStorage.removeItem("email");
     },
     changeCategory(type, index) {
-      let _idl = 4
-      this.$router.push({ path: `/category/${_idl}`});
-
       console.log(`类型是${type},index是${index}`);
       switch (type) {
         case "firstCategory":
@@ -564,31 +477,5 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
       }
     }
   }
-}
-
-.pagination {
-  text-align: center;
-  margin-top: 20px;
-}
-footer {
-  color: rgb(92, 25, 25);
-  margin-top: 30px;
-  padding: 50px 0;
-  background: rgb(161, 159, 159);
-}
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
 }
 </style>

@@ -2,9 +2,6 @@ import request from '@/plugins/request';
 import proxy from '@/utils/proxy';
 
 export function test(){
-//用户名验重  false为不重复  true为重复  测试接口
-    console.log(">>>>>>>>>>>>>",proxy.lipeng)
-
     return new Promise(resolve=>{
         request({
             url:proxy.lipeng+`/videoCourse`,
