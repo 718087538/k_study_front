@@ -54,8 +54,12 @@
                     v-for="(item2, index2) in item.secondCategories"
                     :key="index2"
                   >
-                    {{ item2.secondCategory }} |
-                    <span v-for="item in 5" :key="item">PHP | </span>
+                    {{ item2.secondCategory }} ->
+                    <!-- <span v-for="(item3,index3) in item2.threeCategoryList" :key="index3">{{item3.title}} | </span> -->
+                    <nuxt-link 
+                    v-for="(item3,index3) in item2.threeCategoryList" 
+                    :key="index3" 
+                    :to="{ path: `category/${item3.uuid}` }">{{item3.title}} | </nuxt-link>
                   </div>
                 </div>
               </li>
@@ -73,15 +77,12 @@
           </div>
         </div>
         <div class="bottomBox"></div>
-        <!-- <nav>
+        <nav>
         <a href="javascript:void(0)" class="sel">首页</a>
-        <nuxt-link :to="{ path: 'like/', query: { uid: uid } }"
-          >我的收藏</nuxt-link
-        >
-        <nuxt-link :to="{ path: 'err/', query: { uid: uid } }"
-          >错题本</nuxt-link
-        >
-      </nav> -->
+        <nuxt-link :to="{ path: 'like/', query: { uid: 1 } }">我的收藏</nuxt-link>
+        <nuxt-link :to="{ path: 'err/', query: { uid: 1 } }"
+          >错题本</nuxt-link>
+      </nav>
       </div>
     </section>
     <section class="courseCategory">
@@ -126,7 +127,7 @@
       </div>
     </section>
     <section class="courseList">
-      <ul>
+      <ul v-if="false">
         <li v-for="(item, index) in courseList" :key="index">
           <img :src="item.imgSrc" alt="" />
           <div class="intro">
@@ -151,8 +152,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import { videoCourse } from "../plugins/api/course";
+import { indexCategory } from "../plugins/api/course";
 
 export default {
   name: "",
@@ -312,35 +312,10 @@ export default {
     };
   },
   async asyncData() {
-    let {firstCategories} = await videoCourse();
+    let {firstCategories} = await indexCategory();
     return {
       firstCategories: firstCategories,
     };
-    // let { data } = await axios.get(`http://106.53.238.187:8003/api/category`);
-    // console.log(data.data);
-    // let comPuterList = [];
-    // let selfExam = []; //自学考试临时变量
-    // let tmpName = "";
-    // for (let i of data.data) {
-    //   tmpName = i.name;
-    //   if (
-    //     tmpName === "MySQL" ||
-    //     tmpName === "Node.js" ||
-    //     tmpName === "算法" ||
-    //     tmpName === "数据结构" ||
-    //     tmpName === "MongoDB" ||
-    //     tmpName === "计算机网络" ||
-    //     tmpName === "操作系统"
-    //   ) {
-    //     comPuterList.push(i);
-    //   } else if (tmpName === "自学考试") {
-    //     selfExam.push(i);
-    //   }
-    // }
-    // return {
-    //   selfExam: selfExam,
-    //   comPuterList: comPuterList,
-    // };
   },
 
   components: {},

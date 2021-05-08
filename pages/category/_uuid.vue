@@ -30,7 +30,6 @@
 
     <section class="courseCategory">
       <div class="tab direction">
-        <div class="name">方向：</div>
         <ul>
           <li
             v-for="(item, index) in secondCategories"
@@ -43,7 +42,6 @@
         </ul>
       </div>
       <div class="tab">
-        <div class="name">分类：</div>
         <ul>
           <li
             v-for="(item, index) in threeCategories"
@@ -55,7 +53,7 @@
           </li>
         </ul>
       </div>
-      <div class="tab">
+      <div class="tab" v-if="false">
         <div class="name">难度：</div>
         <ul>
           <li
@@ -72,10 +70,10 @@
     <section class="courseList">
       <ul>
         <li v-for="(item, index) in courseList" :key="index">
-          <img :src="item.imgSrc" alt="" />
+          <img :src="item.cover" alt="" />
           <div class="intro">
             <p>{{ item.title }}</p>
-            <p>{{ item.level }}~{{ item.seeTimes }}人学习</p>
+            <p>已有{{ item.studyTimes }}人学习</p>
             <div class="likeBtn">收藏</div>
           </div>
         </li>
@@ -95,8 +93,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import { clientCategory } from "@/plugins/api/course";
+import { clientCategory , videoCourse } from "@/plugins/api/course";
 
 export default {
   name: "",
@@ -112,8 +109,6 @@ export default {
       firstCategoryIndex: 0,
       classListIndex: 0,
       levelIndex: 0,
-      // secondCategories,
-      // threeCategories,
       secondCategories: [],
       threeCategories: [],
       level: [
@@ -227,34 +222,21 @@ export default {
           level: "中级",
         },
       ],
-      swiperList: [
-        {
-          src:
-            "http://edu-image.nosdn.127.net/318d882bd0ef4d4d847992978e2ea163.jpg?imageView&quality=100",
-        },
-        {
-          src:
-            "http://edu-image.nosdn.127.net/4a7f00d2f0b64843910538d02a0a6770.png?imageView&quality=100",
-        },
-        {
-          src:
-            "http://edu-image.nosdn.127.net/cea243532f644683935a4f4887789ce6.png?imageView&quality=100",
-        },
-        {
-          src:
-            "http://edu-image.nosdn.127.net/318d882bd0ef4d4d847992978e2ea163.jpg?imageView&quality=100",
-        },
-      ],
     };
   },
   async asyncData({ params }) {
-    console.log("接收参数", params);
     let  { firstCategories,secondCategories, threeCategories}  = await clientCategory(params);
+
+
+
+    let  courseList  = await videoCourse();
+    console.log("res", courseList);
 
     return {
       firstCategories:firstCategories,
       secondCategories:secondCategories,
       threeCategories:threeCategories,
+      courseList
     };
 
   },
