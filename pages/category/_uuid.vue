@@ -72,12 +72,15 @@
     <section class="courseList">
       <ul>
         <li v-for="(item, index) in courseList" :key="index">
-          <img :src="item.cover" alt="" />
-          <div class="intro">
-            <p>{{ item.title }}</p>
-            <p>已有{{ item.studyTimes }}人学习</p>
-            <div class="likeBtn">收藏</div>
-          </div>
+          <nuxt-link :to="{ path: `/learn`}" >
+          <!-- <nuxt-link :to="{ path: `/learn/${item.id}`}" > -->
+            <img :src="item.cover" alt="" />
+            <div class="intro">
+              <p>{{ item.title }}</p>
+              <p>已有{{ item.studyTimes }}人学习</p>
+              <div class="likeBtn">收藏</div>
+            </div>
+          </nuxt-link>
         </li>
       </ul>
     </section>
@@ -228,18 +231,16 @@ export default {
     };
   },
   async asyncData({ params }) {
-
     let  { firstCategories}  = await clientCategory(params);
-
-    console.log("》》》", JSON.stringify(firstCategories))
-
-    let  courseList  = await videoCourse();
-    // console.log("res", courseList);
+    let para = {
+      threeCategoryUuid:params.uuid
+    }
+    let  courseList  = await videoCourse(para);
+    console.log("courseList", courseList);
 
     return {
       firstCategories:firstCategories,
       secondCategories:firstCategories[0].secondCategories,
-      // threeCategories:threeCategories,
       courseList,
       categoryUuid:params.uuid
     };
@@ -338,6 +339,7 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
     position: relative;
     border: 1px solid red  ;
     height: 70px;
+    cursor: none;
     .secondItem:hover .subtab{
       display: block !important;
       background: rgb(94, 85, 85);
@@ -349,7 +351,6 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
       position: absolute;
       height: 40px;
       border: 1px solid green;
-
       left: 0px;
       top: 30px;
       color: #333;

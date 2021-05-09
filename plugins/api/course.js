@@ -1,6 +1,17 @@
 import request from '@/plugins/request';
 import proxy from '@/utils/proxy';
+//获得课程章节和详情
+export function getCourseInfo(params) {
+    return new Promise(resolve => {
+        request({
+            url: proxy.lipeng + `/client/courseInfo`, method: "GET", params
+        }).then(res => {
+            resolve(res.data.data)
+        })
+    });
+}
 
+//获得课程的列表
 export function videoCourse(params) {
     return new Promise(resolve => {
         request({
