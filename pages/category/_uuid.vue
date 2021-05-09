@@ -32,27 +32,29 @@
       <div class="tab direction">
         <ul>
           <li
+            class="secondItem"
             v-for="(item, index) in secondCategories"
             :key="index"
-            :class="{ seled: index === firstCategoryIndex }"
+            :class="{ seled:item.id == displayShow }"
             @click="changeCategory('firstCategory', index)"
           >
-            {{ item.secondCategory }}
+            <span>{{ item.secondCategory }}</span>
+
+            <div class="subtab" :class="{setDisplayShow:item.id == displayShow}">
+              <ul>
+                <li
+                  v-for="(item2, index2) in item.threeCategoryList"
+                  :key="index2"
+                  @click="changeCategory('classList', index)"
+                >
+                  <nuxt-link :to="{ path: `/category/${item2.uuid}` }" :class="{ seled: item2.uuid === categoryUuid }">{{item2.title}} </nuxt-link>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>
-      <div class="tab">
-        <ul>
-          <li
-            v-for="(item, index) in threeCategories"
-            :key="index"
-            :class="{ seled: index === classListIndex }"
-            @click="changeCategory('classList', index)"
-          >
-            {{ item.title }}
-          </li>
-        </ul>
-      </div>
+
       <div class="tab" v-if="false">
         <div class="name">难度：</div>
         <ul>
@@ -100,6 +102,7 @@ export default {
   data() {
     return {
       uid: "",
+      categoryUuid:"",
       isLogin: false, //是否登陆的状态
       cateList: [],
       selfExam: [], //自学考试类
@@ -225,18 +228,20 @@ export default {
     };
   },
   async asyncData({ params }) {
-    let  { firstCategories,secondCategories, threeCategories}  = await clientCategory(params);
 
+    let  { firstCategories}  = await clientCategory(params);
 
+    console.log("》》》", JSON.stringify(firstCategories))
 
     let  courseList  = await videoCourse();
-    console.log("res", courseList);
+    // console.log("res", courseList);
 
     return {
       firstCategories:firstCategories,
-      secondCategories:secondCategories,
-      threeCategories:threeCategories,
-      courseList
+      secondCategories:firstCategories[0].secondCategories,
+      // threeCategories:threeCategories,
+      courseList,
+      categoryUuid:params.uuid
     };
 
   },
@@ -264,7 +269,20 @@ export default {
       }
     },
   },
+  computed:{
+    displayShow(){
+      for(let i in this.secondCategories){
+        let tmp = this.secondCategories[i].threeCategoryList
+        for(let j in tmp){
+          if(this.categoryUuid === tmp[j].uuid){
+            
+            return this.secondCategories[i].id
+          }
+        }
+      }
+    }
 
+  },
   mounted() {
     // let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
     // console.log("tmp值", tmp);
@@ -288,6 +306,9 @@ $setCenter: 0 auto;
 $hoverColor: red;
 $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
   "Helvetica Neue", Tahoma, Arial, sans-serif;
+.setDisplayShow{
+  display:  block  !important;
+}
 
 .header {
   background: rgba(202, 199, 202, 0.533);
@@ -313,7 +334,30 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
   margin: 30px auto;
   .tab {
     display: flex;
-    margin: 16px 0;
+    margin: 40px 0;
+    position: relative;
+    border: 1px solid red  ;
+    height: 70px;
+    .secondItem:hover .subtab{
+      display: block !important;
+      background: rgb(94, 85, 85);
+      z-index: 1;
+    }
+    .subtab{
+      width: 600px;
+      display: none;
+      position: absolute;
+      height: 40px;
+      border: 1px solid green;
+
+      left: 0px;
+      top: 30px;
+      color: #333;
+      a{
+        color: #333;
+        text-decoration: none;
+      }
+    }
   }
   ul {
     flex: 1;
@@ -325,7 +369,7 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
       cursor: pointer;
     }
     .seled {
-      color: red;
+      color: red !important;
       background: rgba(242, 13, 13, 0.06);
     }
   }
