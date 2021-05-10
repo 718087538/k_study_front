@@ -1,11 +1,21 @@
 <template>
   <div class="box">
+    
     <section class="playBox">
-      <div class="left">
-        播放
-        <div id="mse"></div>
+      <p>{{lesson.name}}</p>
+      <div class="lessonBox">
+        <div class="left">
+          <div id="mse"></div>
+        </div>
+        <div class="right">
+            <div class="chapterBox" v-for="(item,index) in chapterList" :key="index">
+              <h4>章节：{{index}} - {{item.chapterName}}</h4>
+                <nuxt-link  v-for="(item2,index2) in item.videoLessons" :key="index2" :to="{ path: `/play/${item2.id}`}">
+                  <p>{{item2.name}}</p>
+                </nuxt-link>
+            </div>
+        </div>
       </div>
-      <div class="right"></div>
     </section>
   </div>
 </template>
@@ -19,7 +29,7 @@ export default {
       uid: "",
       categoryUuid: "",
       isLogin: false, //是否登陆的状态
-      chapterList: [],
+      
       selfExam: [], //自学考试类
       comPuterList: [],
       userName: "",
@@ -31,7 +41,8 @@ export default {
       threeCategories: [],
 
       lesson:null,
-      play:null
+      play:null,
+      chapterList: [],
     };
   },
   async asyncData({ params }) {
@@ -59,6 +70,16 @@ export default {
           whitelist: [""],
         });
       }
+    },
+    async getCourseList(){
+      let para = {
+        videoCourseId: this.lesson.videoCourseId,
+      };
+      let chapterList = await getCourseInfo(para);
+
+      console.log("课程的列表", chapterList);
+
+      this.chapterList = chapterList
     },
     signOut() {
       localStorage.setItem("isLogin", "false"); //记录状态为登陆。
@@ -92,9 +113,11 @@ export default {
         }
       }
     },
+  
   },
   mounted() {
     this.initPlayer();
+    this.getCourseList()
     // let tmp = localStorage.getItem("isLogin"); //得到的tmp是string类型的值,第一次赋值时boolean类型
     // console.log("tmp值", tmp);
     // if (tmp == "true") {
@@ -125,6 +148,8 @@ $font: 14px/1.5 "PingFang SC", "微软雅黑", "Microsoft YaHei", Helvetica,
   width: 800px;
   margin: 30px auto;
   border: 1px solid red;
-  display: flex;
+  .lessonBox{
+    display: flex;  
+  }
 }
 </style>

@@ -78,73 +78,9 @@
         </div>
         <div class="bottomBox"></div>
         <nav>
-        <a href="javascript:void(0)" class="sel">首页</a>
-        <nuxt-link :to="{ path: 'like/', query: { uid: 1 } }">我的收藏</nuxt-link>
-        <nuxt-link :to="{ path: 'err/', query: { uid: 1 } }"
-          >错题本</nuxt-link>
       </nav>
       </div>
     </section>
-    <section class="courseCategory">
-      <div class="tab direction">
-        <div class="name">方向：</div>
-        <ul>
-          <li
-            v-for="(item, index) in firstCategory"
-            :key="index"
-            :class="{ seled: index === firstCategoryIndex }"
-            @click="changeCategory('firstCategory', index)"
-          >
-            {{ item.title }}
-          </li>
-        </ul>
-      </div>
-      <div class="tab">
-        <div class="name">分类：</div>
-        <ul>
-          <li
-            v-for="(item, index) in classList"
-            :key="index"
-            :class="{ seled: index === classListIndex }"
-            @click="changeCategory('classList', index)"
-          >
-            {{ item.title }}
-          </li>
-        </ul>
-      </div>
-      <div class="tab">
-        <div class="name">难度：</div>
-        <ul>
-          <li
-            v-for="(item, index) in level"
-            :key="index"
-            :class="{ seled: index === levelIndex }"
-            @click="changeCategory('level', index)"
-          >
-            {{ item.title }}
-          </li>
-        </ul>
-      </div>
-    </section>
-    <section class="courseList">
-      <ul v-if="false">
-        <li v-for="(item, index) in courseList" :key="index">
-          <img :src="item.imgSrc" alt="" />
-          <div class="intro">
-            <p>{{ item.title }}</p>
-            <p>{{ item.level }}~{{ item.seeTimes }}人学习</p>
-            <div class="likeBtn">收藏</div>
-          </div>
-        </li>
-      </ul>
-    </section>
-    <el-pagination
-      class="pagination"
-      background
-      layout="prev, pager, next"
-      :total="1000"
-    >
-    </el-pagination>
     <footer class="footer">
       <h1>末尾</h1>
     </footer>
