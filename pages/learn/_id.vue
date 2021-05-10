@@ -29,9 +29,9 @@
         <div class="left">
           <div class="chapterBox" v-for="(item,index) in chapterList" :key="index">
             <h2>章节：{{index}} - {{item.chapterName}}</h2>
-            <a href="#" v-for="(item2,index2) in item.videoLessons" :key="index2">
-              <p>{{item2.name}}</p>
-            </a>
+              <nuxt-link  v-for="(item2,index2) in item.videoLessons" :key="index2" :to="{ path: `/play/${item2.id}`}">
+                <p>{{item2.name}}</p>
+              </nuxt-link>
           </div>
         </div>
         <div class="right">老师介绍</div>
@@ -73,11 +73,11 @@ export default {
       threeCategories: [],
     };
   },
-  async asyncData({ query }) {
-    let params = {
-      videoCourseId: 3,
+  async asyncData({ params }) {
+    let para = {
+      videoCourseId: params.id,
     };
-    let courseInfo = await getCourseInfo(params);
+    let courseInfo = await getCourseInfo(para);
     console.log("courseInfo", courseInfo);
   
     // let { firstCategories } = await clientCategory(params);

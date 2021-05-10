@@ -12,6 +12,17 @@ export function getCourseInfo(params) {
 }
 
 //获得课程的列表
+export function videoLesson(params) {
+    return new Promise(resolve => {
+        request({
+            url: proxy.lipeng + `/client/videoLesson`, method: "GET", params
+        }).then(res => {
+            resolve(res.data.data)
+        })
+    });
+}
+
+//获得课程播放视频的信息的列表
 export function videoCourse(params) {
     return new Promise(resolve => {
         request({
@@ -21,7 +32,6 @@ export function videoCourse(params) {
         })
     });
 }
-
 
 export function clientCategory(params) {
     return new Promise(resolve => {

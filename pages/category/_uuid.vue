@@ -72,8 +72,8 @@
     <section class="courseList">
       <ul>
         <li v-for="(item, index) in courseList" :key="index">
-          <nuxt-link :to="{ path: `/learn`}" >
-          <!-- <nuxt-link :to="{ path: `/learn/${item.id}`}" > -->
+          <!-- <nuxt-link :to="{ path: `/learn`}" > -->
+          <nuxt-link :to="{ path: `/learn/${item.id}`}" >
             <img :src="item.cover" alt="" />
             <div class="intro">
               <p>{{ item.title }}</p>
